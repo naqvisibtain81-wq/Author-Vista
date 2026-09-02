@@ -1,0 +1,182 @@
+---
+interface Slide {
+  eyebrow: string;
+  title: string;
+  text: string;
+  image?: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+  position?: string;
+  href?: string;
+  linkLabel?: string;
+  motif?: string;
+}
+interface Props {
+  label: string;
+  slides: Slide[];
+  mode?: "story" | "journey";
+  cinematic?: boolean;
+}
+const { label, slides, mode = "story", cinematic = false } = Astro.props;
+---
+<section class:list={["editorial-carousel", `carousel-${mode}`, cinematic && "carousel-cinematic"]} data-carousel data-cinematic={cinematic ? "" : undefined} data-interval={cinematic ? "9000" : "8000"} role="region" aria-roledescription="carousel" aria-label={label}>
+  <div class="carousel-viewport" data-carousel-viewport tabindex={cinematic ? undefined : "0"} aria-label={cinematic ? "Automatically changing editorial scenes" : "Carousel slide area. Use the left and right arrow keys to navigate."}>
+    <div class="carousel-track">
+      {slides.map((slide, index) => <article class="carousel-slide" data-carousel-slide data-active={index === 0 ? "" : undefined} aria-hidden={index === 0 ? "false" : "true"}>
+        {slide.image ? <div class:list={["carousel-media", `motion-scene-${(index % 3) + 1}`]}><img src={slide.image} alt={slide.alt ?? ""} width={slide.width ?? 1600} height={slide.height ?? 1000} style={`object-position:${slide.position ?? "center"}`} loading={index === 0 ? "eager" : "lazy"} decoding="async" /><span class="scene-light" aria-hidden="true"></span><span class="scene-depth" aria-hidden="true"></span></div> : <div class:list={["carousel-motif", `motif-${slide.motif ?? "pages"}`]} aria-hidden="true"><span></span><i></i><i></i><i></i><b>{String(index + 1).padStart(2, "0")}</b><div class="motif-atmosphere"><span></span><span></span><span></span><span></span><span></span><span></span></div></div>}
+        <div class="carousel-shade" aria-hidden="true"></div>
+        <div class="carousel-copy"><div class="carousel-copy-inner">
+          <p class="eyebrow light">{slide.eyebrow}</p>
+          <h3>{slide.title}</h3>
+          <p>{slide.text}</p>
+          {slide.href && <a class="text-link light" href={slide.href}>{slide.linkLabel ?? "Explore this chapter"} <span aria-hidden="true">&rarr;</span></a>}
+        </div></div>
+        <span class="carousel-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+      </article>)}
+    </div>
+  </div>
+  {!cinematic && <div class="carousel-console shell">
+    <div class="carousel-buttons">
+      <button type="button" class="carousel-arrow" data-carousel-prev aria-label="Previous slide"><span aria-hidden="true">&larr;</span></button>
+      <button type="button" class="carousel-toggle" data-carousel-toggle aria-label="Pause automatic slides"><span data-pause-icon aria-hidden="true">II</span><span data-play-icon aria-hidden="true">&#9654;</span></button>
+      <button type="button" class="carousel-arrow" data-carousel-next aria-label="Next slide"><span aria-hidden="true">&rarr;</span></button>
+    </div>
+    <div class="carousel-indicators" role="group" aria-label="Choose a slide">
+      {slides.map((slide, index) => <button type="button" data-carousel-indicator data-active={index === 0 ? "" : undefined} aria-label={`Show slide ${index + 1}: ${slide.title}`} aria-current={index === 0 ? "true" : undefined}><span><i></i></span></button>)}
+    </div>
+    <p class="carousel-count" aria-hidden="true"><span data-carousel-current>01</span> / {String(slides.length).padStart(2, "0")}</p>
+  </div>}
+  <p class="sr-only" aria-live="polite" aria-atomic="true" data-carousel-live></p>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-carousel]:not([data-carousel-ready])").forEach((root) => {
+    root.dataset.carouselReady = "";
+    const slides = [...root.querySelectorAll<HTMLElement>("[data-carousel-slide]")];
+    const indicators = [...root.querySelectorAll<HTMLButtonElement>("[data-carousel-indicator]")];
+    const viewport = root.querySelector<HTMLElement>("[data-carousel-viewport]");
+    const previous = root.querySelector<HTMLButtonElement>("[data-carousel-prev]");
+    const next = root.querySelector<HTMLButtonElement>("[data-carousel-next]");
+    const toggle = root.querySelector<HTMLButtonElement>("[data-carousel-toggle]");
+    const current = root.querySelector<HTMLElement>("[data-carousel-current]");
+    const live = root.querySelector<HTMLElement>("[data-carousel-live]");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const interval = Number(root.dataset.interval) || 8000;
+    const controller = new AbortController();
+    const { signal } = controller;
+    const forceReducedMotion = new URLSearchParams(window.location.search).has("reduced-motion");
+    const cinematic = root.hasAttribute("data-cinematic");
+    let active = 0;
+    let timer = 0;
+    let resumeTimer = 0;
+    let userPaused = reducedMotion.matches || forceReducedMotion || document.body.classList.contains("capture-mode");
+    let interactionPaused = false;
+    let pointerStart = 0;
+    let pointerDelta = 0;
+    let pointerActive = false;
+    let hovering = false;
+    let focused = false;
+    let inView = false;
+
+    const setToggle = () => {
+      if (!toggle) return;
+      const paused = userPaused || interactionPaused || reducedMotion.matches || forceReducedMotion;
+      toggle.toggleAttribute("data-paused", paused);
+      toggle.setAttribute("aria-label", paused ? "Play automatic slides" : "Pause automatic slides");
+    };
+    const setPlaying = (playing: boolean) => root.toggleAttribute("data-playing", playing);
+    const stop = () => { window.clearTimeout(timer); timer = 0; setPlaying(false); };
+    const canPlay = () => !userPaused && !interactionPaused && !reducedMotion.matches && !forceReducedMotion && !hovering && !focused && inView && !document.hidden;
+    const show = (target: number, announce = true) => {
+      active = (target + slides.length) % slides.length;
+      slides.forEach((slide, index) => {
+        const selected = index === active;
+        slide.toggleAttribute("data-active", selected);
+        slide.setAttribute("aria-hidden", String(!selected));
+        selected ? slide.removeAttribute("inert") : slide.setAttribute("inert", "");
+      });
+      indicators.forEach((indicator, index) => {
+        const selected = index === active;
+        indicator.toggleAttribute("data-active", selected);
+        selected ? indicator.setAttribute("aria-current", "true") : indicator.removeAttribute("aria-current");
+      });
+      if (current) current.textContent = String(active + 1).padStart(2, "0");
+      if (announce && live) live.textContent = `Slide ${active + 1} of ${slides.length}: ${slides[active].querySelector("h3")?.textContent ?? ""}`;
+      root.style.setProperty("--carousel-active", String(active));
+    };
+    const schedule = () => {
+      stop();
+      if (!canPlay()) return;
+      setPlaying(true);
+      timer = window.setTimeout(() => { show(active + 1, false); schedule(); }, interval);
+    };
+    const pauseForInteraction = () => {
+      interactionPaused = true;
+      window.clearTimeout(resumeTimer);
+      setToggle();
+      stop();
+      resumeTimer = window.setTimeout(() => {
+        interactionPaused = false;
+        setToggle();
+        schedule();
+      }, 12000);
+    };
+    const manualMove = (direction: number) => { pauseForInteraction(); show(active + direction); };
+
+    previous?.addEventListener("click", () => manualMove(-1), { signal });
+    next?.addEventListener("click", () => manualMove(1), { signal });
+    indicators.forEach((indicator, index) => indicator.addEventListener("click", () => { pauseForInteraction(); show(index); }, { signal }));
+    toggle?.addEventListener("click", () => {
+      userPaused = !userPaused;
+      interactionPaused = false;
+      window.clearTimeout(resumeTimer);
+      setToggle();
+      userPaused ? stop() : schedule();
+    }, { signal });
+    if (!cinematic) viewport?.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") { event.preventDefault(); manualMove(-1); }
+      if (event.key === "ArrowRight") { event.preventDefault(); manualMove(1); }
+      if (event.key === "Home") { event.preventDefault(); pauseForInteraction(); show(0); }
+      if (event.key === "End") { event.preventDefault(); pauseForInteraction(); show(slides.length - 1); }
+    }, { signal });
+    if (!cinematic) viewport?.addEventListener("pointerdown", (event) => {
+      if (event.button !== 0) return;
+      pointerActive = true;
+      pointerStart = event.clientX;
+      pointerDelta = 0;
+      viewport.setPointerCapture(event.pointerId);
+      root.toggleAttribute("data-dragging", true);
+      stop();
+    }, { signal });
+    if (!cinematic) viewport?.addEventListener("pointermove", (event) => {
+      if (!pointerActive) return;
+      pointerDelta = event.clientX - pointerStart;
+      root.style.setProperty("--drag-distance", `${Math.max(-90, Math.min(90, pointerDelta))}px`);
+    }, { signal });
+    const finishPointer = () => {
+      if (!pointerActive) return;
+      pointerActive = false;
+      root.removeAttribute("data-dragging");
+      root.style.removeProperty("--drag-distance");
+      if (Math.abs(pointerDelta) > 48) manualMove(pointerDelta < 0 ? 1 : -1); else { pauseForInteraction(); schedule(); }
+    };
+    if (!cinematic) viewport?.addEventListener("pointerup", finishPointer, { signal });
+    if (!cinematic) viewport?.addEventListener("pointercancel", finishPointer, { signal });
+    if (!cinematic) root.addEventListener("mouseenter", () => { hovering = true; stop(); }, { signal });
+    if (!cinematic) root.addEventListener("mouseleave", () => { hovering = false; schedule(); }, { signal });
+    root.addEventListener("focusin", () => { focused = true; stop(); }, { signal });
+    root.addEventListener("focusout", (event) => {
+      if (root.contains(event.relatedTarget as Node)) return;
+      focused = false;
+      schedule();
+    }, { signal });
+    document.addEventListener("visibilitychange", () => document.hidden ? stop() : schedule(), { signal });
+    reducedMotion.addEventListener("change", () => { userPaused = reducedMotion.matches; interactionPaused = false; setToggle(); schedule(); }, { signal });
+    const viewObserver = new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; entry.isIntersecting ? schedule() : stop(); }, { threshold: .2 });
+    viewObserver.observe(root);
+    window.addEventListener("pagehide", () => { controller.abort(); viewObserver.disconnect(); stop(); window.clearTimeout(resumeTimer); }, { once: true });
+    show(0, false);
+    setToggle();
+  });
+</script>

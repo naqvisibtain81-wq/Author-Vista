@@ -1,0 +1,88 @@
+---
+import BrandMark from "./BrandMark.astro";
+import { primaryNav } from "../data/site";
+import { serviceMenuGroups } from "../data/services";
+const home = Astro.url.pathname === "/";
+const currentPath = Astro.url.pathname;
+---
+<header class:list={["site-header", { "site-header-home": home }]} data-header>
+  <div class="shell nav-wrap">
+    <BrandMark />
+    <button class="menu-toggle" aria-expanded="false" aria-controls="primary-navigation"><span class="sr-only">Open menu</span><span></span><span></span></button>
+    <nav id="primary-navigation" aria-label="Primary navigation">
+      <ul>{primaryNav.map((item) => item.href === "/services/" ? <li class="services-nav-item" data-services-nav>
+        <div class="services-nav-control"><a href={item.href} aria-current={currentPath.startsWith(item.href) ? "page" : undefined}>Services</a><button type="button" data-services-toggle aria-expanded="false" aria-controls="services-panel"><span class="sr-only">Toggle services menu</span><span aria-hidden="true">+</span></button></div>
+      </li> : <li><a href={item.href} aria-current={currentPath.startsWith(item.href) ? "page" : undefined}>{item.label}</a></li>)}</ul>
+      <a class="button button-small" href="/schedule-a-call/">Schedule a call</a>
+    </nav>
+  </div>
+  <section id="services-panel" class="services-mega" data-services-panel aria-label="Publishing services" aria-hidden="true">
+    <div class="shell services-mega-inner">
+      <div class="services-mega-intro"><p class="eyebrow light">Publishing services</p><h2>One connected path, shaped around the book.</h2><p>Explore a specific service or begin with the stage your manuscript has reached.</p><a class="text-link light" href="/services/">View all services <span aria-hidden="true">&rarr;</span></a></div>
+      <div class="services-mega-groups">
+        {serviceMenuGroups.map((group, index) => <section class="mega-group"><button type="button" class="mega-group-toggle" aria-expanded={index === 0 ? "true" : "false"}><span>{group.group}</span><i aria-hidden="true">+</i></button><div class="mega-group-links" data-open={index === 0 ? "" : undefined}>{group.items.map((service) => <a href={`/services/${service.slug}/`}><strong>{service.title}</strong><span>{service.eyebrow}</span></a>)}</div></section>)}
+      </div>
+    </div>
+  </section>
+</header>
+<noscript><style>.menu-toggle{display:none!important}.site-header nav{display:flex!important;position:static!important}.site-header nav ul{display:flex!important}.services-mega{display:none!important}</style></noscript>
+<script>
+  const menuButton = document.querySelector<HTMLButtonElement>(".menu-toggle");
+  const primaryNavigation = document.querySelector<HTMLElement>("#primary-navigation");
+  const menuLabel = menuButton?.querySelector<HTMLElement>(".sr-only");
+  const servicesItem = document.querySelector<HTMLElement>("[data-services-nav]");
+  const servicesToggle = document.querySelector<HTMLButtonElement>("[data-services-toggle]");
+  const servicesPanel = document.querySelector<HTMLElement>("[data-services-panel]");
+  let closeTimer = 0;
+  let servicesPinned = false;
+  const desktop = () => matchMedia("(min-width: 901px)").matches;
+  const openServices = () => {
+    window.clearTimeout(closeTimer);
+    servicesToggle?.setAttribute("aria-expanded","true");
+    servicesPanel?.setAttribute("aria-hidden","false");
+    servicesPanel?.setAttribute("data-open","");
+    document.querySelector("[data-header]")?.setAttribute("data-services-open","");
+  };
+  const closeServices = (delayed = false) => {
+    const close = () => { servicesPinned = false; servicesToggle?.setAttribute("aria-expanded","false"); servicesPanel?.setAttribute("aria-hidden","true"); servicesPanel?.removeAttribute("data-open"); document.querySelector("[data-header]")?.removeAttribute("data-services-open"); };
+    window.clearTimeout(closeTimer); delayed ? closeTimer = window.setTimeout(close, 280) : close();
+  };
+  const closeMenu = () => {
+    menuButton?.setAttribute("aria-expanded", "false");
+    if (menuLabel) menuLabel.textContent = "Open menu";
+    primaryNavigation?.removeAttribute("data-open");
+    document.body.classList.remove("menu-open");
+    closeServices();
+  };
+  menuButton?.addEventListener("click", () => {
+    const open = menuButton.getAttribute("aria-expanded") === "true";
+    menuButton.setAttribute("aria-expanded", String(!open));
+    if (menuLabel) menuLabel.textContent = open ? "Open menu" : "Close menu";
+    primaryNavigation?.toggleAttribute("data-open", !open);
+    document.body.classList.toggle("menu-open", !open);
+  });
+  servicesToggle?.addEventListener("click", () => {
+    const willOpen = !servicesPinned || servicesToggle.getAttribute("aria-expanded") !== "true";
+    if (!desktop() && willOpen && menuButton?.getAttribute("aria-expanded") !== "true") {
+      menuButton?.setAttribute("aria-expanded", "true");
+      primaryNavigation?.setAttribute("data-open", "");
+      document.body.classList.add("menu-open");
+    }
+    if (willOpen) { servicesPinned = true; openServices(); } else closeServices();
+  });
+  servicesItem?.addEventListener("mouseenter", () => desktop() && openServices());
+  servicesItem?.addEventListener("mouseleave", () => desktop() && !servicesPinned && closeServices(true));
+  servicesItem?.addEventListener("focusin", (event) => { if (desktop() && event.target !== servicesToggle) openServices(); });
+  servicesPanel?.addEventListener("mouseenter", () => window.clearTimeout(closeTimer));
+  servicesPanel?.addEventListener("mouseleave", () => desktop() && !servicesPinned && closeServices(true));
+  servicesPanel?.addEventListener("focusin", () => window.clearTimeout(closeTimer));
+  servicesPanel?.addEventListener("focusout", (event) => { if (desktop() && !servicesPanel.contains(event.relatedTarget as Node) && !servicesItem?.contains(event.relatedTarget as Node)) closeServices(true); });
+  document.addEventListener("pointerdown", (event) => { if (desktop() && servicesPanel?.hasAttribute("data-open") && !servicesPanel.contains(event.target as Node) && !servicesItem?.contains(event.target as Node)) closeServices(); });
+  document.querySelectorAll<HTMLButtonElement>(".mega-group-toggle").forEach((button) => button.addEventListener("click", () => { const open=button.getAttribute("aria-expanded") === "true"; button.setAttribute("aria-expanded",String(!open)); button.nextElementSibling?.toggleAttribute("data-open",!open); }));
+  primaryNavigation?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+  servicesPanel?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+  document.addEventListener("keydown", (event) => { if (event.key !== "Escape") return; if (servicesPanel?.hasAttribute("data-open")) { if (desktop()) { closeServices(); servicesToggle?.focus(); } else { closeMenu(); menuButton?.focus(); } } else if (menuButton?.getAttribute("aria-expanded") === "true") { closeMenu(); menuButton.focus(); } });
+  const header = document.querySelector<HTMLElement>("[data-header]");
+  const setHeader = () => header?.toggleAttribute("data-scrolled", window.scrollY > 24);
+  setHeader(); window.addEventListener("scroll", setHeader, { passive: true });
+</script>

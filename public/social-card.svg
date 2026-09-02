@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Author Vista</title>
+  <desc id="desc">A clearer path from the book you imagine to the book your readers can hold.</desc>
+  <rect width="1200" height="630" fill="#0c1217"/>
+  <circle cx="126" cy="143" r="4" fill="#d98b68"/>
+  <g transform="translate(90 128)" fill="none" stroke="#d98b68" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 22c12 0 23 4 36 16v22C24 53 13 49 0 49V22Z"/>
+    <path d="M72 22c-12 0-23 4-36 16v22c12-7 23-11 36-11V22Z"/>
+    <path d="M4 17h64" opacity=".74"/>
+  </g>
+  <path d="M0 490C220 460 330 520 520 480s350-90 680-28" fill="none" stroke="#b86f4b" stroke-width="3"/>
+  <path d="M0 520c260-25 410 45 650-5s380-70 550-40" fill="none" stroke="#d8ccba" opacity=".35"/>
+  <text x="190" y="185" fill="#f3ede2" font-family="Newsreader, Georgia, serif" font-size="70" letter-spacing="-1.5">Author <tspan font-style="italic">Vista</tspan></text>
+  <text x="94" y="305" fill="#f3ede2" font-family="Newsreader, Georgia, serif" font-size="54">A clearer path from the book you imagine</text>
+  <text x="94" y="368" fill="#d8ccba" font-family="Newsreader, Georgia, serif" font-size="54">to the book your readers can hold.</text>
+</svg>

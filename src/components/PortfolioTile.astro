@@ -1,0 +1,26 @@
+---
+import type { PortfolioProject, PortfolioFormat } from "../data/portfolio";
+interface Props { project: PortfolioProject; format?: PortfolioFormat; index?: number; duplicate?: boolean; }
+const { project, format = project.format, index = 0, duplicate = false } = Astro.props;
+---
+<a
+  class:list={["portfolio-tile", `portfolio-tile-${format}`]}
+  href={`/portfolio/${project.slug}/`}
+  data-portfolio-tile
+  data-category={project.category}
+  data-project-index={index}
+  aria-hidden={duplicate ? "true" : undefined}
+  tabindex={duplicate ? -1 : undefined}
+  style={`--tile-index:${index};--tile-offset:${((index % 3) - 1) * 18}px`}
+>
+  <div class="portfolio-tile-visual">
+    {project.image ? <img src={project.image} alt={project.imageAlt ?? ""} width="900" height="1200" loading="lazy" /> : <div class="portfolio-placeholder-art" aria-hidden="true"><span></span><i></i><b>{String(index + 1).padStart(2,"0")}</b></div>}
+    <span class="portfolio-development-label">Development placeholder</span>
+  </div>
+  <div class="portfolio-tile-copy">
+    <p>{project.category}</p>
+    <h3>{project.title}</h3>
+    <dl><div><dt>Genre</dt><dd>{project.genre}</dd></div><div><dt>Services</dt><dd>{project.services.join(", ")}</dd></div></dl>
+    <span class="portfolio-tile-action">View Project <b aria-hidden="true">↗</b></span>
+  </div>
+</a>

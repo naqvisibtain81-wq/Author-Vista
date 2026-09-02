@@ -1,0 +1,36 @@
+---
+interface Props { mode?: "call" | "quote" | "contact"; }
+const { mode = "call" } = Astro.props;
+const buttonLabel = mode === "quote" ? "Prepare my project summary" : mode === "contact" ? "Prepare my enquiry" : "Prepare my call request";
+---
+<form data-preview-form novalidate>
+  <div class="field-row">
+    <div class="field"><label for={`${mode}-name`}>Name</label><input id={`${mode}-name`} name="name" autocomplete="name" required /></div>
+    <div class="field"><label for={`${mode}-email`}>Email address</label><input id={`${mode}-email`} name="email" type="email" autocomplete="email" required /></div>
+  </div>
+  <div class="field-row">
+    <div class="field"><label for={`${mode}-stage`}>Current manuscript stage</label><select id={`${mode}-stage`} name="stage" required><option value="">Select one</option><option>Idea or notes</option><option>Partial manuscript</option><option>Complete manuscript</option><option>Published book</option></select></div>
+    <div class="field"><label for={`${mode}-genre`}>Book genre</label><input id={`${mode}-genre`} name="genre" placeholder="e.g. memoir, business, fiction" /></div>
+  </div>
+  <div class="field"><label for={`${mode}-services`}>What kind of support are you considering?</label><input id={`${mode}-services`} name="services" placeholder="Writing, editing, design, publishing, marketing…" /></div>
+  <div class="field"><label for={`${mode}-message`}>Tell us briefly about the book and your goal</label><textarea id={`${mode}-message`} name="message" required></textarea></div>
+  <label class="consent"><input type="checkbox" name="consent" required /> <span>I understand this preview does not yet transmit information. When enquiry handling is connected, my details will be used to respond according to the approved privacy policy.</span></label>
+  <p class="form-note">Do not include confidential manuscript text or upload files at this stage.</p>
+  <div class="form-status" role="status" aria-live="polite"></div>
+  <button class="button" type="submit">{buttonLabel}</button>
+</form>
+<script>
+  document.querySelectorAll<HTMLFormElement>("[data-preview-form]").forEach((form) => {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const status = form.querySelector<HTMLElement>(".form-status");
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        if (status) { status.textContent = "Please complete the required fields before continuing."; status.dataset.visible = ""; }
+        return;
+      }
+      if (status) { status.textContent = "Your project summary is ready. Submission is intentionally disabled in this preview until Author Vista’s contact, privacy and secure form delivery details are approved."; status.dataset.visible = ""; }
+    });
+  });
+</script>
+<style>.consent{display:grid;grid-template-columns:20px 1fr;gap:.65rem;font-weight:400;font-size:.92rem;align-items:start}.consent input{width:18px;min-height:18px;margin-top:.2rem}</style>

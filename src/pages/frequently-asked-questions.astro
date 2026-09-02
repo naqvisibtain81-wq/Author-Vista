@@ -1,0 +1,12 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import CTA from "../components/CTA.astro";
+import { faqs } from "../data/site";
+const faqSchema={"@type":"FAQPage",mainEntity:faqs.map(([q,a])=>({"@type":"Question",name:q,acceptedAnswer:{"@type":"Answer",text:a}}))};
+---
+<BaseLayout title="Publishing Services Frequently Asked Questions" description="Clear answers about Author Vista services, ownership, costs, manuscript stages, introductory calls and publishing outcomes." schema={faqSchema}>
+  <PageHero eyebrow="Frequently asked questions" title="Straight answers before you decide what comes next." intro="Publishing can feel opaque. These answers clarify the Author Vista model, the author’s control and the boundaries of the introductory conversation." />
+  <section class="section faq-page-section"><div class="shell narrow"><div class="faq-list" data-sequence>{faqs.map(([q,a])=><details data-sequence-item><summary>{q}</summary><p>{a}</p></details>)}</div></div></section>
+  <CTA />
+</BaseLayout>

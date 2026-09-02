@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import EditorialImage from "../components/EditorialImage.astro";
+import CTA from "../components/CTA.astro";
+import ParticleStatement from "../components/ParticleStatement.astro";
+---
+<BaseLayout title="About Author Vista" description="Discover the thinking behind Author Vista: a clear, author controlled path through writing, editing, design and independent publication.">
+  <PageHero eyebrow="About Author Vista" title="Perspective changes what becomes possible." intro="Author Vista was shaped around a simple belief. Authors need more than isolated services. They need a clear view of the entire path ahead." />
+
+  <section class="section story-split"><div class="shell editorial-split">
+    <div data-sequence><p class="eyebrow" data-sequence-item>The story in the name</p><h2 data-sequence-item>When the landscape opens, the destination becomes visible.</h2><p class="lede" data-sequence-item>Every book begins with a limited view: an idea, a collection of notes, an unfinished manuscript or a story known only to its author.</p></div>
+    <div class="service-motif motif-path" aria-hidden="true"><span></span><i></i><i></i><i></i><b>AV</b></div>
+  </div></section>
+
+  <section class="section surface-forest visual-manifesto"><div class="shell manifesto-grid">
+    <EditorialImage src="/images/experienced-reader.webp" alt="A thoughtful reader with an open book in a library" width={1800} height={1200} position="center 38%" class="landscape-wide" />
+    <div data-sequence><p class="eyebrow light" data-sequence-item>A wider view</p><p class="quote light-quote" data-sequence-item>From the first direction of a manuscript to its final presentation, every stage should serve <em>the same book.</em></p><div class="prose prose-light" data-sequence-item><p>Author Vista brings creative, editorial and technical work into one considered process. We help authors understand what their book can become, what it will take to get there and where their approval matters.</p><p>A vista is not the destination. It is the moment the route becomes clear enough to continue with confidence.</p></div></div>
+  </div></section>
+
+  <section class="section surface-parchment"><div class="shell editorial-split reverse">
+    <div data-sequence><p class="eyebrow" data-sequence-item>What Author Vista is</p><h2 data-sequence-item>Publishing expertise without publishing control.</h2><div class="prose" data-sequence-item><p>Author Vista is an end to end publishing services and assisted self publishing partner. It can support writing, editing, design, production, platform preparation and author marketing.</p><p>It is not a traditional publisher. It does not acquire manuscripts, offer publishing contracts, control the author’s publishing identity or claim a percentage of royalties.</p></div></div>
+    <div class="service-motif motif-layout" aria-hidden="true"><span></span><i></i><i></i><i></i><b>01</b></div>
+  </div></section>
+
+  <ParticleStatement />
+  <section class="section clarity-section"><div class="shell"><div class="principles" data-sequence><div class="principle" data-sequence-item><span>01</span><h3>Clear responsibilities</h3><p>Who does what, and when, belongs in the written scope.</p></div><div class="principle" data-sequence-item><span>02</span><h3>Author ownership</h3><p>The manuscript, copyright, accounts and royalties stay under author control.</p></div><div class="principle" data-sequence-item><span>03</span><h3>Evidence before claims</h3><p>Portfolio, testimonials and credentials appear only when verified and permitted.</p></div><div class="principle" data-sequence-item><span>04</span><h3>Realistic outcomes</h3><p>Professional support can improve the book. It cannot guarantee the market response.</p></div></div></div></section>
+  <CTA />
+</BaseLayout>

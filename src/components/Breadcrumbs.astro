@@ -1,0 +1,18 @@
+---
+const parts = Astro.url.pathname.split("/").filter(Boolean);
+const labels: Record<string,string> = {
+  services:"Services", about:"About", "how-it-works":"How it works", "ownership-and-publishing-control":"Ownership and publishing control",
+  "publishing-services":"Publishing services", resources:"Resources", "frequently-asked-questions":"Frequently asked questions",
+  "schedule-a-call":"Schedule a call", "request-a-quote":"Request a quote", contact:"Contact", "privacy-policy":"Privacy policy",
+  "terms-and-conditions":"Terms and conditions", "cancellation-policy":"Cancellation policy",
+  "book-writing-and-manuscript-development":"Writing and manuscript development", "book-editing":"Book editing",
+  "book-design-and-production":"Book design and production", "self-publishing-assistance":"Self-publishing assistance",
+  "audiobook-production":"Audiobook production", "author-platform-and-book-marketing":"Author platform and marketing",
+};
+const crumbs = parts.map((part,index) => ({ label: labels[part] ?? part.replaceAll("-"," "), href: `/${parts.slice(0,index+1).join("/")}/` }));
+const schema = { "@context":"https://schema.org", "@type":"BreadcrumbList", itemListElement:[
+  {"@type":"ListItem",position:1,name:"Home",item:new URL("/",Astro.site)},
+  ...crumbs.map((crumb,index)=>({"@type":"ListItem",position:index+2,name:crumb.label,item:new URL(crumb.href,Astro.site)}))
+]};
+---
+{parts.length > 0 && <div class="breadcrumb-wrap"><nav class="shell breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li>{crumbs.map((crumb,index)=><li>{index === crumbs.length-1 ? <span aria-current="page">{crumb.label}</span> : <a href={crumb.href}>{crumb.label}</a>}</li>)}</ol></nav><script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} /></div>}

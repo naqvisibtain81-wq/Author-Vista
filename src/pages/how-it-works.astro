@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import CTA from "../components/CTA.astro";
+import { processSteps } from "../data/site";
+---
+<BaseLayout title="How the Author Vista Publishing Process Works" description="See how Author Vista moves from an introductory conversation to a tailored scope, milestones, approvals and publication preparation." image="/images/idea-notebook.webp">
+  <PageHero eyebrow="How it works" title="A publishing process with the next decision in view." intro="The process begins by understanding the manuscript. Scope, milestones and approvals are then defined around the work, not around a standard package." image="/images/idea-notebook.webp" alt="A hand writing early book ideas in a notebook" imageWidth={1130} imageHeight={1800} position="center 44%" />
+
+  <section class="process-film process-typographic"><div class="process-light" aria-hidden="true"></div><div class="shell process-intro" data-sequence><p class="eyebrow light" data-sequence-item>From conversation to publication</p><h2 data-sequence-item>The book moves forward through decisions you can see.</h2><p class="lede" data-sequence-item>A coordinated process reduces guesswork. Each stage creates the information or approval needed for the one that follows.</p></div>
+    <ol class="shell process-ledger" data-sequence>{processSteps.map(([number,title,text], index) => <li data-sequence-item>
+      <span class="process-number" aria-hidden="true">{number}</span><div><p class="eyebrow light">Stage {number}</p><h3>{title}</h3><p>{text}</p>{index === 3 && <p class="small process-detail">Approval points, revision expectations and responsibilities belong in the written scope.</p>}</div><i aria-hidden="true"></i>
+    </li>)}</ol>
+  </section>
+
+  <section class="section surface-parchment"><div class="shell editorial-split"><div data-sequence><p class="eyebrow" data-sequence-item>Before a quotation</p><h2 data-sequence-item>Useful information makes the scope more accurate.</h2></div><div class="prose" data-reveal><p>This can include the manuscript stage, approximate word count, genre, intended reader, current editorial condition, formats, illustration needs, desired services, goals and timeline.</p><p>A quotation is not prepared from a headline promise. It follows a reasonable understanding of the material and responsibilities.</p></div></div></section>
+  <section class="section"><div class="shell"><div class="answer-block" data-reveal><p class="eyebrow">The introductory call</p><h2>What does the call include?</h2><p>The call is an initial conversation to understand the project, identify the manuscript stage, discuss potentially relevant services, explain the working process and determine whether Author Vista is a suitable partner. It does not include a complimentary manuscript evaluation, completed strategy or professional deliverable.</p></div></div></section>
+  <CTA />
+</BaseLayout>

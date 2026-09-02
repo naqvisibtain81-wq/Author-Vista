@@ -1,0 +1,16 @@
+---
+interface Props { forWhom: string[]; problems: string[]; }
+const { forWhom, problems } = Astro.props;
+---
+<section class="section surface-parchment service-fit-section" aria-label="Service fit and problems addressed">
+  <div class="shell service-fit-comparison">
+    <article data-sequence>
+      <header class="service-fit-header"><p class="eyebrow" data-sequence-item>Who it is for</p><h2 data-sequence-item>A useful fit when the book needs focused professional support.</h2></header>
+      <ul class="detail-list" data-sequence>{forWhom.map((item) => <li data-sequence-item>{item}</li>)}</ul>
+    </article>
+    <article data-sequence>
+      <header class="service-fit-header"><p class="eyebrow" data-sequence-item>Problems it helps solve</p><h2 data-sequence-item>Turn uncertainty into defined decisions.</h2></header>
+      <ul class="detail-list" data-sequence>{problems.map((item) => <li data-sequence-item>{item}</li>)}</ul>
+    </article>
+  </div>
+</section>

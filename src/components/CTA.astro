@@ -1,0 +1,11 @@
+---
+interface Props { title?: string; text?: string; }
+const { title = "Let us understand where your book stands.", text = "An introductory call is a focused first conversation about your manuscript, goals and possible next step." } = Astro.props;
+---
+<section class="cta-band ink-scene">
+  <div class="closing-orbit" aria-hidden="true"></div>
+  <div class="shell cta-inner" data-sequence>
+    <div><p class="eyebrow light" data-sequence-item>A clearer next step</p><h2 data-sequence-item>{title}</h2><p data-sequence-item>{text}</p></div>
+    <div class="cta-actions" data-sequence-item><a class="button button-light" href="/schedule-a-call/">Schedule an introductory call</a><a class="text-link light" href="/request-a-quote/">Request a custom quote <span>→</span></a></div>
+  </div>
+</section>

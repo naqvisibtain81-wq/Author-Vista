@@ -1,0 +1,320 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import EditorialCarousel from "../components/EditorialCarousel.astro";
+import { stages, serviceGroups, faqs } from "../data/site";
+const isProduction = import.meta.env.PUBLIC_SITE_STATUS === "production";
+const faqSchema = { "@type": "FAQPage", mainEntity: faqs.map(([question,answer]) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } })) };
+const authorRealitySlides = [
+  { eyebrow: "An idea waiting for direction", title: "You know the idea matters, but not yet how to structure it.", text: "Clarify the purpose, reader and shape of the book before the blank page becomes a source of pressure.", image: "/images/writer-city.webp", alt: "A writer thinking while developing ideas in a notebook", width: 1800, height: 1200, position: "center 42%", href: "/services/book-writing-and-manuscript-development/", linkLabel: "Explore manuscript development" },
+  { eyebrow: "A draft waiting for distance", title: "You have lived with the manuscript so long that objectivity is hard to find.", text: "The right editorial perspective can reveal structural gaps, unclear passages and opportunities already present in the work.", image: "/images/writer-evening.webp", alt: "A writer working on a manuscript at home in the evening", width: 1200, height: 1800, position: "center 44%", href: "/services/book-editing/", linkLabel: "Understand editorial support" },
+  { eyebrow: "A voice worth protecting", title: "You want professional help without losing what made the book yours.", text: "Writing and editing support should strengthen the manuscript while preserving the author’s intent, character and approval.", image: "/images/writer-home.webp", alt: "A writer reviewing notes at a calm home desk", width: 1200, height: 1800, position: "center 38%", href: "/how-it-works/", linkLabel: "See how collaboration works" },
+];
+---
+<BaseLayout title="Publishing Services for Independent Authors | Author Vista" description="Writing, editing, design, publishing and marketing support for independent authors, thoughtfully coordinated while you retain control." schema={faqSchema} image="/images/editor-reviewing-pages.webp">
+  <section class="cinematic-hero ink-scene" aria-labelledby="hero-title" data-depth-scene>
+    <div class="hero-photograph" data-parallax>
+      <img src="/images/editor-reviewing-pages.webp" width="1800" height="1440" alt="An editor reviewing printed pages beside a laptop" fetchpriority="high" />
+    </div>
+    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="shell hero-content">
+      <div class="hero-copy">
+        <p class="eyebrow light hero-kicker">From the first page to the wider horizon</p>
+        <h1 id="hero-title" class="phrase-title">
+          <span><i>A clearer path</i></span>
+          <span><i>from the book you imagine</i></span>
+          <span><i>to the book your readers can hold.</i></span>
+        </h1>
+        <p class="hero-intro">Author Vista coordinates writing, editing, design, publishing and marketing support around your book, while you remain in control of the work.</p>
+        <div class="hero-actions"><a class="button" href="/schedule-a-call/">Schedule an introductory call</a><a class="text-link light" href="#publishing-process">Explore our publishing process <span>↓</span></a></div>
+      </div>
+    </div>
+    <div class="scroll-cue" aria-hidden="true"><span>Scroll to open the view</span><i></i></div>
+    <div class="hero-horizon" aria-hidden="true"></div>
+  </section>
+
+  <nav class="sr-only" aria-label="Homepage chapters">
+    <a href="#your-stage">The manuscript</a>
+    <a href="#view-opens">The view opens</a>
+    <a href="#publishing-process">The craft</a>
+    <a href="#ownership">Ownership and control</a>
+    <a href="#publication">The publication path</a>
+    <a href="#portfolio-preview">Portfolio preview</a>
+    <a href="#questions">Author questions</a>
+    <a href="#next-step">The next step</a>
+  </nav>
+
+  <aside class="trust-ribbon" aria-label="Author Vista at a glance">
+    <div class="shell trust-ribbon-inner" data-sequence>
+      <p data-sequence-item><span>01</span><strong>Your copyright stays yours.</strong></p>
+      <p data-sequence-item><span>02</span><strong>Your publishing accounts stay under your control.</strong></p>
+      <p data-sequence-item><span>03</span><strong>Your project receives a tailored scope.</strong></p>
+    </div>
+  </aside>
+
+  <section class="chapter author-reality" aria-labelledby="reality-title">
+    <div class="shell reality-heading" data-sequence><p class="chapter-number light" data-sequence-item>Before chapter one</p><p class="eyebrow light" data-sequence-item>The author’s reality</p><h2 id="reality-title" data-sequence-item>A manuscript can matter deeply and still feel difficult to move forward.</h2><p class="lede" data-sequence-item>Professional support begins by recognising the problem in front of the author, not by assuming every book needs the same solution.</p></div>
+    <EditorialCarousel label="Common manuscript starting points" slides={authorRealitySlides} mode="story" cinematic />
+  </section>
+
+  <section id="your-stage" class="chapter chapter-stages">
+    <div class="shell stage-composition">
+      <div class="stage-intro" data-sequence><p class="chapter-number" data-sequence-item>Chapter one</p><p class="eyebrow" data-sequence-item>Every book begins somewhere</p><h2 data-sequence-item>Begin with the manuscript you actually have.</h2><p class="lede" data-sequence-item>You do not need a perfect draft or the right publishing vocabulary. You only need to know where the book stands today.</p></div>
+      <div class="page-stack" aria-hidden="true" data-parallax data-depth-scene><div class="paper paper-back"><span>Idea</span></div><div class="paper paper-middle"><span>Draft</span><i></i><i></i><i></i></div><div class="paper paper-front"><span>Manuscript</span><b>What could this become?</b><i></i><i></i><i></i><i></i></div></div>
+      <div class="stage-paths" data-sequence>
+        {stages.map((stage,index) => <a class="stage-path" href={stage.href} data-sequence-item><span class="stage-number">{stage.number}</span><div><p>{stage.eyebrow}</p><h3>{index === 0 ? "An idea waiting for direction" : index === 1 ? "A draft waiting for refinement" : "A manuscript waiting for publication"}</h3><span>{stage.text}</span></div><b aria-hidden="true">↗</b></a>)}
+      </div>
+    </div>
+  </section>
+
+  <section id="view-opens" class="chapter chapter-vista vista-dust-reveal" data-vista-dust aria-labelledby="vista-title">
+    <div class="vista-dust-atmosphere" aria-hidden="true"></div>
+    <canvas class="vista-dust-canvas" data-vista-dust-canvas aria-hidden="true"></canvas>
+    <div class="shell vista-dust-content">
+        <h2 id="vista-title" class="vista-dust-statement">
+          <span class="vista-dust-line vista-dust-line-one">Authors need more than isolated services.</span>
+          <span class="vista-dust-line vista-dust-line-two">They need a clear view of <em>the whole path ahead.</em></span>
+        </h2>
+        <div class="vista-dust-support">
+          <p>Author Vista brings the creative, editorial and technical stages into one considered process. Each decision is made with the finished book in view.</p>
+          <a class="text-link light" href="/about/">Discover the thinking behind Author Vista <span aria-hidden="true">&rarr;</span></a>
+        </div>
+        <div class="vista-dust-horizon" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section id="publishing-process" class="chapter craft-chapter" data-depth-scene>
+    <div class="shell craft-layout">
+      <div class="craft-sticky">
+        <div data-sequence><p class="chapter-number" data-sequence-item>Chapter three</p><p class="eyebrow" data-sequence-item>Craft in motion</p><h2 data-sequence-item>One manuscript, shaped through connected decisions.</h2><p class="lede" data-sequence-item>Move through the stages to see how the work develops. Not every project needs every service.</p></div>
+      </div>
+      <div class="craft-steps">
+        {serviceGroups.map((service,index) => <article class="craft-step" data-craft-step data-number={`0${index+1}`} data-label={service.shortTitle} data-reveal><div class:list={["craft-motif", `craft-${service.visualMode}`]} aria-hidden="true"><span></span><i></i><i></i><i></i><b>{`0${index+1}`}</b></div><span>{`0${index+1}`}</span><p class="eyebrow">{["Writing","Editing","Design","Publishing","Audio","Author platform"][index]}</p><h3>{service.shortTitle}</h3><p>{service.intro}</p><a class="text-link" href={`/services/${service.slug}/`}>Explore this service <b>→</b></a></article>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter collaboration-chapter" aria-labelledby="collaboration-title">
+    <div class="collaboration-image" data-image-reveal data-parallax><img src="/images/publishing-discussion.webp" width="1800" height="1202" alt="People reviewing documents together around a table" loading="lazy" /></div>
+    <div class="collaboration-shade" aria-hidden="true"></div>
+    <div class="shell collaboration-content" data-sequence><p class="chapter-number light" data-sequence-item>Between craft and control</p><p class="eyebrow light" data-sequence-item>Human collaboration</p><h2 id="collaboration-title" data-sequence-item>The book is yours. The path does not have to be taken alone.</h2><p data-sequence-item>Good collaboration is not a handoff into the unknown. It is a sequence of conversations, reviews and approvals that keeps the author close to the work while specialist support moves it forward.</p><p class="image-context" data-sequence-item>Editorial photography illustrates a publishing discussion. People shown are not identified as Author Vista staff or clients.</p><a class="text-link light" href="/how-it-works/" data-sequence-item>See how the process keeps decisions visible <span>→</span></a></div>
+  </section>
+
+  <section id="ownership" class="chapter trust-chapter">
+    <div class="shell trust-layout">
+      <div class="trust-heading" data-reveal><p class="chapter-number">Chapter four</p><p class="eyebrow">Your book remains yours</p><h2>Professional support without surrendering control.</h2><p class="lede">The work is collaborative. The ownership is not ambiguous.</p></div>
+      <ol class="trust-ledger" data-sequence>
+        <li data-sequence-item><span>01</span><div><h3>Copyright stays with you.</h3><p>You retain copyright in your manuscript and book content.</p></div></li>
+        <li data-sequence-item><span>02</span><div><h3>Publishing accounts stay under your control.</h3><p>You hold and control platform accounts wherever the selected platform permits.</p></div></li>
+        <li data-sequence-item><span>03</span><div><h3>Royalties remain yours.</h3><p>Author Vista does not claim an ongoing share of royalties.</p></div></li>
+        <li data-sequence-item><span>04</span><div><h3>Major decisions require approval.</h3><p>Creative and publishing decisions are reviewed at the agreed project milestones.</p></div></li>
+        <li data-sequence-item><span>05</span><div><h3>The scope reflects the book.</h3><p>Services are quoted according to manuscript condition, formats, goals and timeline.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="publication" class="chapter publication-chapter ink-scene" aria-labelledby="publication-title" data-depth-scene>
+    <div class="publication-horizon" aria-hidden="true"><i></i><i></i><i></i><span></span></div>
+    <div class="shell publication-layout">
+      <div class="publication-copy" data-sequence>
+        <p class="chapter-number light" data-sequence-item>Chapter five</p>
+        <p class="eyebrow light" data-sequence-item>The publication path</p>
+        <h2 id="publication-title" data-sequence-item>Your book moves outward. Your publishing identity stays with you.</h2>
+        <p data-sequence-item>Author Vista can prepare files, metadata, descriptions, categories and submission materials, then guide you through established self publishing and distribution platforms.</p>
+        <a class="text-link light" href="/publishing-services/" data-sequence-item>Understand publishing assistance <span>→</span></a>
+      </div>
+      <div class="platform-orbit" data-sequence aria-label="Platforms that may be considered according to the project">
+        {['Amazon KDP','IngramSpark','Lulu','Apple Books','Kobo','Barnes & Noble, where available'].map((platform,index) => <div data-sequence-item><span>{`0${index+1}`}</span><p>{platform}</p></div>)}
+        <p class="platform-note" data-sequence-item>Platform options depend on the project. No partnership or preferred access is implied.</p>
+      </div>
+    </div>
+  </section>
+
+  {!isProduction && <section id="portfolio-preview" class="chapter portfolio-preview" aria-labelledby="portfolio-title">
+    <div class="shell"><div class="portfolio-heading" data-reveal><div><p class="chapter-number light">Chapter six</p><p class="eyebrow light">Books that can be held</p><h2 id="portfolio-title">A place reserved for real books.</h2></div><p>This preview composition will hold approved cover artwork, production details and project context. It is not presented as a published Author Vista portfolio.</p></div>
+      <div class="shelf-preview" aria-label="Development placeholders for future approved portfolio books"><div class="placeholder-book"><span>Development placeholder</span><b>Approved project<br />coming here</b></div><div class="placeholder-pages"><i></i><i></i><i></i><p>Real title, author permission, services and publication link required.</p></div></div>
+    </div>
+  </section>}
+
+  <section id="direct-answer" class="section answer-chapter"><div class="shell answer-layout"><div data-reveal><p class="eyebrow">A direct answer</p><h2>What is Author Vista?</h2></div><p data-reveal>Author Vista is an end to end publishing services partner. It helps authors move from an early idea or unfinished manuscript to a professionally prepared, independently published book. It is not a traditional publisher. Authors retain control of their work, publishing identity and royalties.</p></div></section>
+
+  <section id="questions" class="section-tight faq-chapter"><div class="shell faq-layout"><div data-reveal><p class="eyebrow">Questions authors ask</p><h2>Clarity before commitment.</h2><a class="text-link" href="/frequently-asked-questions/">View every answer <span>→</span></a></div><div class="faq-list" data-sequence>{faqs.slice(0,5).map(([question,answer]) => <details data-sequence-item><summary>{question}</summary><p>{answer}</p></details>)}</div></div></section>
+
+  <section id="next-step" class="final-horizon ink-scene">
+    <div class="final-light" aria-hidden="true"></div><div class="shell final-content" data-reveal><p class="chapter-number light">The next page</p><p class="eyebrow light">A clearer next step</p><h2>Your book may still be an idea, a draft or a finished manuscript.</h2><p>The next step begins with understanding where you are.</p><a class="button button-light" href="/schedule-a-call/">Schedule an introductory call</a></div>
+  </section>
+</BaseLayout>
+
+<script>
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const vistaSection = document.querySelector<HTMLElement>("[data-vista-dust]");
+  if (vistaSection) {
+    const forceReducedVista = new URLSearchParams(location.search).has("reduced-motion");
+    const motionEnabled = !reduced && !forceReducedVista;
+    const canvas = vistaSection.querySelector<HTMLCanvasElement>("[data-vista-dust-canvas]");
+    if (!motionEnabled || !canvas) {
+      vistaSection.toggleAttribute("data-vista-reduced", true);
+    } else {
+      const context = canvas.getContext("2d", { alpha: true });
+      const clamp = (value: number) => Math.max(0, Math.min(1, value));
+      const range = (value: number, start: number, end: number) => clamp((value - start) / (end - start));
+      const ease = (value: number) => 1 - Math.pow(1 - value, 3);
+      const particles: Array<{ y:number; offset:number; speed:number; size:number; alpha:number; drift:number; color:string }> = [];
+      let frame = 0;
+      let startTime = 0;
+      let pauseTime = 0;
+      let running = false;
+      let complete = false;
+      const duration = 3000;
+
+      const setReveal = (progress: number) => {
+        vistaSection.style.setProperty("--dust-line-one", ease(range(progress, .06, .43)).toFixed(4));
+        vistaSection.style.setProperty("--dust-line-two", ease(range(progress, .2, .62)).toFixed(4));
+        vistaSection.style.setProperty("--dust-accent", ease(range(progress, .34, .72)).toFixed(4));
+        vistaSection.style.setProperty("--dust-support", ease(range(progress, .62, .87)).toFixed(4));
+        vistaSection.style.setProperty("--dust-link", ease(range(progress, .78, .98)).toFixed(4));
+      };
+
+      const sizeCanvas = () => {
+        if (!context || complete) return;
+        const rect = vistaSection.getBoundingClientRect();
+        const ratio = Math.min(devicePixelRatio || 1, 2);
+        canvas.width = Math.max(1, Math.round(rect.width * ratio));
+        canvas.height = Math.max(1, Math.round(rect.height * ratio));
+        canvas.style.width = `${rect.width}px`;
+        canvas.style.height = `${rect.height}px`;
+        context.setTransform(ratio, 0, 0, ratio, 0, 0);
+        particles.length = 0;
+        const count = innerWidth < 700 ? 100 : 190;
+        const colors = ["243,237,226", "184,111,75", "151,168,157"];
+        for (let index = 0; index < count; index += 1) particles.push({
+          y: Math.random() * rect.height,
+          offset: Math.random() * rect.width * .62,
+          speed: .72 + Math.random() * .7,
+          size: .35 + Math.random() * 1.15,
+          alpha: .035 + Math.random() * .13,
+          drift: (Math.random() - .5) * 26,
+          color: colors[index % colors.length]
+        });
+      };
+
+      const drawDust = (progress: number) => {
+        if (!context) return;
+        const width = canvas.clientWidth;
+        const height = canvas.clientHeight;
+        context.clearRect(0, 0, width, height);
+        const fade = Math.min(1, progress * 7) * (1 - ease(range(progress, .72, 1)));
+        const front = -width * .12 + progress * width * 1.42;
+        for (const particle of particles) {
+          const x = front * particle.speed - particle.offset;
+          if (x < -20 || x > width + 20) continue;
+          const y = particle.y + Math.sin(progress * 8 + particle.offset * .01) * particle.drift;
+          context.beginPath();
+          context.fillStyle = `rgba(${particle.color},${particle.alpha * fade})`;
+          context.ellipse(x, y, particle.size * 2.4, particle.size, -.16, 0, Math.PI * 2);
+          context.fill();
+        }
+      };
+
+      const finish = () => {
+        complete = true;
+        running = false;
+        frame = 0;
+        setReveal(1);
+        context?.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+        canvas.hidden = true;
+        vistaSection.toggleAttribute("data-dust-revealed", true);
+        removeEventListener("resize", sizeCanvas);
+        removeEventListener("visibilitychange", handleVisibility);
+      };
+
+      const renderDust = (time: number) => {
+        if (!running || document.hidden) return;
+        if (!startTime) startTime = time;
+        const progress = clamp((time - startTime) / duration);
+        setReveal(progress);
+        drawDust(progress);
+        if (progress >= 1) finish();
+        else frame = requestAnimationFrame(renderDust);
+      };
+
+      const handleVisibility = () => {
+        if (complete || !running) return;
+        if (document.hidden) {
+          pauseTime = performance.now();
+          if (frame) cancelAnimationFrame(frame);
+          frame = 0;
+        } else {
+          if (pauseTime && startTime) startTime += performance.now() - pauseTime;
+          pauseTime = 0;
+          frame = requestAnimationFrame(renderDust);
+        }
+      };
+
+      setReveal(0);
+      sizeCanvas();
+      vistaSection.toggleAttribute("data-dust-ready", true);
+      const vistaObserver = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting || running || complete) return;
+        running = true;
+        vistaObserver.disconnect();
+        frame = requestAnimationFrame(renderDust);
+      }, { threshold: .01, rootMargin: "0px 0px -70% 0px" });
+      vistaObserver.observe(vistaSection);
+      addEventListener("resize", sizeCanvas, { passive: true });
+      addEventListener("visibilitychange", handleVisibility);
+      addEventListener("pagehide", () => {
+        vistaObserver.disconnect();
+        removeEventListener("resize", sizeCanvas);
+        removeEventListener("visibilitychange", handleVisibility);
+        if (frame) cancelAnimationFrame(frame);
+      }, { once: true });
+    }
+  }
+  if (!reduced) {
+    const craftNumber = document.querySelector<HTMLElement>("[data-craft-number]");
+    const craftLabel = document.querySelector<HTMLElement>("[data-craft-label]");
+    const craftObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const step = entry.target as HTMLElement;
+      if (craftNumber) craftNumber.textContent = step.dataset.number ?? "";
+      if (craftLabel) craftLabel.textContent = step.dataset.label ?? "";
+      document.querySelectorAll("[data-craft-step]").forEach((item) => item.toggleAttribute("data-active", item === step));
+    }), { threshold: .58, rootMargin: "-15% 0px -15%" });
+    document.querySelectorAll("[data-craft-step]").forEach((step) => craftObserver.observe(step));
+  }
+</script>
+
+<style>
+.cinematic-hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;padding:clamp(8rem,15vh,11rem) 0 clamp(8rem,13vh,10rem)}.hero-photograph{position:absolute;inset:-4% -2% -4% 37%;transform:translate3d(0,var(--parallax),0);will-change:transform}.hero-photograph img{width:100%;height:110%;object-fit:cover;object-position:55% center;filter:saturate(.54) sepia(.18) contrast(1.07)}.hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,#0b1217 0%,rgba(11,18,23,.95) 32%,rgba(11,18,23,.52) 65%,rgba(11,18,23,.12)),linear-gradient(0deg,rgba(6,11,14,.88),transparent 52%),radial-gradient(circle at 72% 38%,rgba(184,111,75,.18),transparent 35%)}.hero-content{position:relative;z-index:2}.hero-copy{max-width:960px}.hero-kicker{opacity:0;animation:quietIn .8s .1s var(--ease) forwards}.phrase-title{font-size:clamp(3.8rem,7.4vw,8.8rem);max-width:12.7ch;color:var(--paper)}.phrase-title>span{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}.phrase-title i{display:block;font-style:normal;transform:translateY(110%);animation:lineRise 1s var(--ease) forwards}.phrase-title>span:nth-child(2) i{animation-delay:.13s}.phrase-title>span:nth-child(3) i{animation-delay:.26s;color:#e7c9b4}.hero-intro{max-width:58ch;color:#ced5d0;font-size:clamp(1.12rem,1.6vw,1.36rem);margin-top:2rem;opacity:0;animation:quietIn .9s .55s var(--ease) forwards}.hero-actions{display:flex;align-items:center;gap:1.8rem;flex-wrap:wrap;margin-top:2.2rem;opacity:0;animation:quietIn .9s .7s var(--ease) forwards}.scroll-cue{position:absolute;z-index:3;right:3vw;bottom:2.8rem;display:flex;align-items:center;gap:1rem;color:#bac4be;font-size:.68rem;text-transform:uppercase;letter-spacing:.18em;writing-mode:vertical-rl}.scroll-cue i{display:block;width:1px;height:58px;background:linear-gradient(var(--copper),transparent)}.hero-horizon{position:absolute;z-index:2;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,var(--copper) 32%,#e0a284 62%,transparent);box-shadow:0 0 34px rgba(184,111,75,.5)}
+.trust-ribbon{background:#0c1519;color:var(--paper);border-bottom:1px solid var(--line-light)}.trust-ribbon-inner{display:grid;grid-template-columns:repeat(3,1fr)}.trust-ribbon p{display:flex;gap:1rem;padding:1.25rem 1.5rem;margin:0;border-left:1px solid var(--line-light);font-size:.86rem}.trust-ribbon p:first-child{border-left:0}.trust-ribbon span{color:var(--copper);font-family:var(--serif)}.trust-ribbon strong{font-weight:520}
+.chapter{position:relative}.chapter-number{margin:0 0 .55rem;font-family:var(--serif);font-style:italic;color:var(--sage)}.chapter-number.light{color:#b5c1ba}.chapter-stages{background:var(--paper);padding:clamp(6rem,12vw,11rem) 0;overflow:hidden}.stage-composition{display:grid;grid-template-columns:minmax(0,.9fr) minmax(280px,.6fr);gap:clamp(3rem,8vw,8rem);align-items:start}.stage-intro h2{max-width:11ch}.stage-intro .lede{margin-top:1.6rem}.page-stack{position:relative;min-height:430px;transform:translateY(var(--parallax));grid-row:1/span 2;grid-column:2}.paper{position:absolute;background:var(--white);border:1px solid rgba(16,24,32,.12);box-shadow:var(--shadow);padding:2rem;display:flex;flex-direction:column}.paper span{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--copper-dark)}.paper i{height:1px;background:rgba(16,24,32,.2);margin-top:1rem}.paper-back{inset:16% 14% 12% 6%;transform:rotate(-9deg);background:var(--parchment)}.paper-middle{inset:9% 7% 8% 12%;transform:rotate(5deg)}.paper-front{inset:0 4% 3% 19%;transform:rotate(-1deg)}.paper-front b{font-family:var(--serif);font-size:2.2rem;font-weight:420;line-height:1.06;margin:auto 0}.stage-paths{grid-column:1/-1;margin-top:2rem;border-top:1px solid var(--line)}.stage-path{display:grid;grid-template-columns:70px minmax(0,1fr) 32px;gap:2rem;align-items:center;padding:2.3rem 0;border-bottom:1px solid var(--line);text-decoration:none;transition:padding .35s var(--ease),background .35s;transition-delay:var(--delay)}.stage-path:hover{padding-left:1.2rem;background:rgba(255,255,255,.4)}.stage-number{font-family:var(--serif);font-size:1.7rem;color:var(--copper-dark)}.stage-path p{margin:0 0 .2rem;font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;color:var(--sage)}.stage-path h3{font-size:clamp(1.8rem,3.5vw,3.4rem);margin-bottom:.4rem}.stage-path div>span{color:var(--slate)}.stage-path>b{font-size:1.5rem;font-weight:400}
+.craft-chapter{background:var(--white);padding:clamp(6rem,10vw,9rem) 0}.craft-layout{display:grid;grid-template-columns:minmax(320px,.82fr) minmax(0,1fr);gap:clamp(4rem,10vw,10rem);align-items:start}.craft-sticky{position:sticky;top:120px;min-height:calc(100svh - 150px);display:flex;flex-direction:column;justify-content:space-between}.craft-sticky h2{max-width:10ch}.craft-sticky .lede{margin-top:1.5rem}.craft-page{position:relative;align-self:flex-end;width:min(360px,85%);aspect-ratio:.73;background:var(--paper);box-shadow:var(--shadow);padding:2rem;transform:perspective(900px) rotateY(-7deg) rotateX(2deg);transition:transform .8s var(--ease)}.craft-page:hover{transform:perspective(900px) rotateY(-2deg)}.craft-page>span{font-family:var(--serif);font-size:1.7rem;color:var(--copper-dark)}.craft-page>p{font-family:var(--serif);font-size:2.1rem;line-height:1.05;margin-top:3.2rem}.craft-page small{position:absolute;bottom:1.5rem;left:2rem;text-transform:uppercase;letter-spacing:.16em}.editorial-lines{margin-top:2rem}.editorial-lines i{display:block;height:1px;background:rgba(16,24,32,.2);margin-top:1rem}.editorial-lines i:nth-child(2){width:84%}.editorial-lines i:nth-child(4){width:72%}.editorial-lines b{position:absolute;width:38%;height:2px;background:var(--copper);right:8%;top:58%;transform:rotate(-5deg)}.craft-steps{padding-top:18vh}.craft-step{min-height:72vh;padding:4rem 0;border-top:1px solid var(--line);opacity:.45;transition:opacity .5s}.craft-step[data-active]{opacity:1}.craft-step>span{font-family:var(--serif);color:var(--copper-dark);font-size:1.4rem}.craft-step h3{font-size:clamp(2.5rem,5vw,5rem);max-width:9ch;margin-bottom:1.2rem}.craft-step>p:not(.eyebrow){max-width:55ch;color:var(--slate)}.craft-step .eyebrow{margin-top:3rem}
+.trust-chapter{background:var(--paper);padding:clamp(6rem,11vw,10rem) 0}.trust-layout{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr);gap:clamp(4rem,10vw,10rem)}.trust-heading{position:sticky;top:130px;align-self:start}.trust-heading h2{max-width:11ch}.trust-heading .lede{margin-top:1.5rem}.trust-ledger{list-style:none;padding:0;margin:0;border-top:1px solid var(--line)}.trust-ledger li{display:grid;grid-template-columns:56px 1fr;gap:1.5rem;padding:2.2rem 0;border-bottom:1px solid var(--line)}.trust-ledger li>span{font-family:var(--serif);color:var(--copper-dark);font-size:1.35rem}.trust-ledger h3{font-size:clamp(1.55rem,2.7vw,2.4rem);margin-bottom:.6rem}.trust-ledger p{color:var(--slate);max-width:55ch;margin:0}
+.portfolio-preview{background:linear-gradient(135deg,#0b1318,var(--forest));color:var(--paper);padding:clamp(6rem,11vw,10rem) 0;overflow:hidden}.portfolio-heading{display:grid;grid-template-columns:1fr minmax(280px,.55fr);gap:5rem;align-items:end}.portfolio-heading h2{max-width:12ch}.portfolio-heading>p{color:#bdc8c1}.shelf-preview{display:grid;grid-template-columns:minmax(220px,.4fr) 1fr;gap:clamp(3rem,8vw,8rem);align-items:end;margin-top:5rem}.placeholder-book{width:min(330px,80%);aspect-ratio:.68;background:var(--parchment);color:var(--ink);padding:2rem;display:flex;flex-direction:column;box-shadow:0 40px 100px rgba(0,0,0,.35);transform:perspective(900px) rotateY(10deg)}.placeholder-book span{font-size:.62rem;text-transform:uppercase;letter-spacing:.16em;color:var(--copper-dark)}.placeholder-book b{font-family:var(--serif);font-size:2rem;line-height:1.06;margin:auto 0;font-weight:430}.placeholder-pages{border-bottom:1px solid var(--line-light);padding-bottom:2rem}.placeholder-pages i{display:block;height:1px;background:var(--line-light);margin:1.2rem 0}.placeholder-pages p{color:#aebbb3;max-width:50ch}
+.answer-chapter{background:#dfe3da}.answer-layout{display:grid;grid-template-columns:.75fr 1fr;gap:clamp(3rem,8vw,8rem);align-items:end}.answer-layout h2{max-width:8ch}.answer-layout>p{font-family:var(--serif);font-size:clamp(1.8rem,3.4vw,3.2rem);line-height:1.18;color:var(--forest)}.faq-chapter{background:var(--white)}.faq-layout{display:grid;grid-template-columns:minmax(240px,.55fr) 1fr;gap:clamp(4rem,9vw,9rem)}.faq-layout>div:first-child{position:sticky;top:130px;align-self:start}.faq-layout h2{font-size:clamp(2.5rem,5vw,4.8rem);margin-bottom:2rem}.faq-layout .faq-list{margin-top:0}.final-horizon{position:relative;min-height:90svh;display:grid;place-items:center;text-align:center;overflow:hidden}.final-light{position:absolute;left:50%;bottom:-70%;width:min(1100px,100vw);aspect-ratio:1;border-radius:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(229,216,197,.22),rgba(184,111,75,.1) 30%,transparent 68%);border:1px solid rgba(229,216,197,.18)}.final-horizon:after{content:"";position:absolute;left:0;right:0;top:64%;height:1px;background:linear-gradient(90deg,transparent,var(--copper),transparent);box-shadow:0 0 40px rgba(184,111,75,.6)}.final-content{position:relative;z-index:1}.final-content h2{max-width:15ch;margin-inline:auto}.final-content>p:not(.eyebrow,.chapter-number){color:#c5cec8;font-size:1.2rem;margin:1.6rem auto 2rem}.final-content .button{width:auto}
+@keyframes lineRise{to{transform:none}}@keyframes quietIn{to{opacity:1;transform:none}}
+@media(max-width:900px){.cinematic-hero{min-height:920px}.hero-photograph{inset:0 0 0 18%}.hero-shade{background:linear-gradient(90deg,#0b1217 0%,rgba(11,18,23,.92) 50%,rgba(11,18,23,.35)),linear-gradient(0deg,#0b1217 5%,transparent 60%)}.trust-ribbon-inner{grid-template-columns:1fr}.trust-ribbon p{border-left:0;border-top:1px solid var(--line-light)}.trust-ribbon p:first-child{border-top:0}.stage-composition,.craft-layout,.trust-layout,.portfolio-heading,.shelf-preview,.answer-layout,.faq-layout{grid-template-columns:1fr}.page-stack{grid-column:1;grid-row:auto;min-height:360px;max-width:520px;width:100%;margin-inline:auto}.craft-sticky,.trust-heading,.faq-layout>div:first-child{position:relative;top:auto}.craft-sticky{min-height:auto;display:grid;grid-template-columns:1fr 260px;gap:3rem}.craft-page{width:100%}.craft-steps{padding-top:5rem}.craft-step{min-height:auto;padding:5rem 0;opacity:1}.trust-ledger{margin-top:2rem}.shelf-preview{grid-template-columns:.65fr 1fr}.answer-layout>p{max-width:22ch}.scroll-cue{display:none}}
+@media(max-width:600px){.cinematic-hero{min-height:820px;padding-top:8rem}.hero-photograph{inset:0 -45% 0 0}.hero-shade{background:linear-gradient(0deg,#0b1217 12%,rgba(11,18,23,.84) 72%,rgba(11,18,23,.5))}.phrase-title{font-size:clamp(3.2rem,15vw,5rem)}.hero-intro{font-size:1.05rem}.hero-actions{align-items:stretch}.hero-actions .text-link{justify-content:center}.stage-path{grid-template-columns:46px 1fr 24px;gap:1rem}.stage-path div>span{display:block;font-size:.94rem}.page-stack{min-height:290px}.paper{padding:1.3rem}.paper-front b{font-size:1.55rem}.craft-sticky{display:block}.craft-page{display:none}.craft-step{padding:3.5rem 0}.trust-ledger li{grid-template-columns:40px 1fr;gap:1rem}.shelf-preview{grid-template-columns:1fr}.placeholder-book{margin-inline:auto}.portfolio-heading{gap:2rem}.final-horizon{min-height:760px}.final-content .button{width:100%}}
+@media(prefers-reduced-motion:reduce){.hero-kicker,.hero-intro,.hero-actions{opacity:1}.phrase-title i{transform:none}.hero-photograph,.page-stack{transform:none}.craft-step{opacity:1}.craft-page{transform:none}}
+@media(min-width:901px){.craft-layout{grid-template-columns:minmax(360px,.9fr) minmax(0,1fr);gap:clamp(4rem,9vw,9rem)}.craft-sticky{top:116px;min-height:calc(100svh - 140px);display:block}.craft-sticky>div:first-child{position:relative;z-index:2;max-width:370px}.craft-sticky h2{font-size:clamp(3rem,4.2vw,4.6rem)}.craft-page{position:absolute;right:-1rem;bottom:0;width:min(210px,43%);padding:1.35rem}.craft-page>span{font-size:1.35rem}.craft-page>p{font-size:1.5rem;margin-top:2rem}.craft-page small{bottom:1.1rem;left:1.35rem}}
+
+/* Refined chapter planes and the publication horizon */
+.craft-chapter{background:linear-gradient(150deg,#f0e7da,var(--paper) 47%,#e0e4db);overflow:clip}.craft-chapter:before{content:"";position:absolute;left:-8%;right:-8%;top:-4.5rem;height:9rem;background:var(--forest);transform:rotate(-1.6deg);transform-origin:right top}.craft-layout{position:relative;z-index:1}.craft-page{transform:perspective(900px) rotateY(calc(-7deg + var(--pointer-x,0) * 1deg)) rotateX(calc(2deg - var(--pointer-y,0) * 1deg))}.answer-chapter{background:linear-gradient(135deg,#d9e0d6,#eee5d8)}.faq-chapter{background:linear-gradient(145deg,#eee4d5,var(--paper) 58%,#e2e5dc)}
+.publication-chapter{position:relative;overflow:hidden;background:linear-gradient(125deg,#101820 2%,#14241f 58%,#1c3029);padding:clamp(7rem,13vw,12rem) 0}.publication-layout{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,.9fr) minmax(330px,.7fr);gap:clamp(4rem,10vw,10rem);align-items:center}.publication-copy h2{font-size:clamp(3rem,5.8vw,6.2rem);max-width:11ch}.publication-copy>p:not(.eyebrow,.chapter-number){color:#c5cec8;max-width:57ch;margin:1.8rem 0}.platform-orbit{border-top:1px solid var(--line-light)}.platform-orbit>div{display:grid;grid-template-columns:46px 1fr;gap:1rem;align-items:center;padding:1.18rem 0;border-bottom:1px solid var(--line-light)}.platform-orbit span{font-family:var(--serif);color:#df9a78}.platform-orbit p{margin:0;color:var(--paper);font-family:var(--serif);font-size:clamp(1.2rem,2vw,1.7rem)}.platform-orbit .platform-note{margin:1.4rem 0 0;color:#aebbb3;font-family:var(--sans);font-size:.82rem;line-height:1.5}.publication-horizon{position:absolute;inset:0;pointer-events:none;transform:translate(calc(var(--pointer-x,0) * 6px),calc(var(--pointer-y,0) * 4px));transition:transform .8s var(--ease)}.publication-horizon i{position:absolute;left:49%;top:50%;width:70vw;height:1px;background:linear-gradient(90deg,rgba(184,111,75,.5),transparent);transform-origin:left}.publication-horizon i:nth-child(1){transform:rotate(-8deg)}.publication-horizon i:nth-child(2){transform:rotate(0)}.publication-horizon i:nth-child(3){transform:rotate(8deg)}.publication-horizon span{position:absolute;left:49%;top:50%;width:min(54vw,800px);aspect-ratio:1;border:1px solid rgba(229,216,197,.1);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 120px rgba(184,111,75,.08)}
+.capture-mode .craft-step{opacity:1}
+@media(max-width:900px){.publication-layout{grid-template-columns:1fr}.publication-copy h2{max-width:13ch}.platform-orbit{margin-top:1rem}.publication-horizon i,.publication-horizon span{left:24%;top:40%}}
+@media(min-width:901px) and (max-width:1180px){.craft-layout{grid-template-columns:minmax(290px,.75fr) minmax(0,1fr);gap:3.5rem}.craft-sticky h2{font-size:clamp(2.8rem,4vw,3.7rem)}.craft-page{width:160px;right:0}.craft-step h3{font-size:clamp(2.7rem,4.5vw,4rem)}.publication-layout{gap:4rem}}
+@media(max-width:600px){.publication-chapter{padding-block:6rem}.publication-copy h2{font-size:clamp(2.8rem,13vw,4.2rem)}.platform-orbit>div{grid-template-columns:36px 1fr}.publication-horizon{opacity:.55}}
+.author-reality{padding:clamp(7rem,12vw,11rem) 0;background:linear-gradient(145deg,#e7dac7,var(--paper) 48%,#dde3da);overflow:hidden}.reality-heading{display:grid;grid-template-columns:.35fr 1fr;column-gap:clamp(2rem,8vw,8rem)}.reality-heading .chapter-number,.reality-heading .eyebrow{grid-column:1}.reality-heading h2,.reality-heading .lede{grid-column:2}.reality-heading h2{max-width:13ch}.reality-heading .lede{margin-top:1.6rem}.reality-film{display:grid;grid-template-columns:1.15fr .72fr .78fr;gap:clamp(1rem,2.5vw,2.5rem);align-items:end;margin-top:clamp(4rem,8vw,8rem)}.reality-frame{margin:0}.reality-frame>div{overflow:hidden;background:var(--ink)}.reality-frame img{width:100%;height:100%;object-fit:cover;filter:saturate(.72) sepia(.08);transition:transform 1.2s var(--ease)}.reality-frame:hover img{transform:scale(1.025)}.frame-wide>div{aspect-ratio:1.18}.frame-tall>div{aspect-ratio:.72}.frame-close>div{aspect-ratio:.82}.reality-frame figcaption{display:grid;grid-template-columns:34px 1fr;gap:1rem;padding-top:1rem}.reality-frame figcaption span{color:var(--copper-dark);font-family:var(--serif)}.reality-frame figcaption strong{font-family:var(--serif);font-size:clamp(1.2rem,1.9vw,1.7rem);line-height:1.18;font-weight:440}
+.craft-step-image{width:min(360px,100%);aspect-ratio:1.38;overflow:hidden;margin-bottom:2.2rem;background:var(--ink)}.craft-step-image img{width:100%;height:100%;object-fit:cover;filter:saturate(.65) sepia(.08);transition:transform .8s var(--ease)}.craft-step[data-active] .craft-step-image img{transform:scale(1.035)}
+.collaboration-chapter{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;background:var(--ink);color:var(--paper)}.collaboration-image{position:absolute;inset:-7% 0;transform:translateY(var(--parallax))}.collaboration-image img{width:100%;height:114%;object-fit:cover;object-position:center 44%;filter:saturate(.58) sepia(.1)}.collaboration-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,15,19,.97) 4%,rgba(8,15,19,.82) 44%,rgba(8,15,19,.2) 78%),linear-gradient(0deg,rgba(8,15,19,.7),transparent 50%)}.collaboration-content{position:relative;z-index:1;padding-block:clamp(7rem,12vw,11rem)}.collaboration-content h2{max-width:12ch}.collaboration-content>p:not(.eyebrow,.chapter-number,.image-context){max-width:55ch;color:#d0d7d2;font-size:1.18rem;margin-top:1.8rem}.image-context{max-width:58ch;color:#9faaa4;font-size:.78rem;margin:2rem 0}.collaboration-content .text-link{margin-top:.8rem}
+@media(max-width:900px){.reality-heading{grid-template-columns:1fr}.reality-heading .chapter-number,.reality-heading .eyebrow,.reality-heading h2,.reality-heading .lede{grid-column:1}.reality-film{grid-template-columns:1fr 1fr}.frame-wide{grid-column:1/-1}.frame-wide>div{aspect-ratio:1.7}.collaboration-shade{background:linear-gradient(0deg,rgba(8,15,19,.98) 8%,rgba(8,15,19,.68) 70%,rgba(8,15,19,.2))}.collaboration-content{padding-top:48vh}.collaboration-content h2{max-width:13ch}.craft-step-image{width:min(520px,100%);aspect-ratio:1.7}}
+@media(max-width:600px){.reality-film{grid-template-columns:1fr}.frame-wide{grid-column:auto}.reality-frame>div,.frame-wide>div{aspect-ratio:1.05}.frame-tall>div,.frame-close>div{aspect-ratio:1.05}.collaboration-content{padding-top:44vh}.collaboration-content h2{font-size:clamp(2.8rem,13vw,4.3rem)}.craft-step-image{aspect-ratio:1.35}}
+@media(prefers-reduced-motion:reduce){.reality-frame img,.craft-step-image img,.collaboration-image{transform:none!important}}
+.final-horizon{background:radial-gradient(circle at 50% 70%,rgba(184,111,75,.17),transparent 28%),linear-gradient(145deg,#090b0d,#10201c 70%,#171a1c)}
+.author-reality{padding-bottom:0;background:radial-gradient(circle at 82% 18%,rgba(184,111,75,.1),transparent 25%),linear-gradient(140deg,#090b0d,#0c1217 48%,#10201c);color:var(--paper)}.reality-heading .lede{color:#b8c2bc}.author-reality .editorial-carousel{width:100%;max-width:none;margin-inline:0}
+.craft-chapter{background:radial-gradient(circle at 78% 12%,rgba(184,111,75,.1),transparent 23%),linear-gradient(145deg,#0c1217,#10201c 64%,#171a1c);color:var(--paper)}.craft-chapter:before{background:#10201c}.craft-sticky .lede,.craft-step>p:not(.eyebrow){color:#b8c2bc}.craft-step{border-color:var(--line-light)}.craft-step-image{background:#090b0d}.craft-page{display:none!important}.craft-sticky{min-height:auto;display:block}.craft-sticky>div:first-child{max-width:460px}.craft-step h3{color:var(--paper)}.craft-step .text-link{color:var(--paper)}
+.craft-motif{position:relative;width:min(360px,100%);aspect-ratio:1.5;margin-bottom:2.2rem;overflow:hidden;border:1px solid var(--line-light);background:radial-gradient(circle at 70% 20%,rgba(184,111,75,.14),transparent 25%),rgba(9,11,13,.55)}.craft-motif:before{content:"";position:absolute;width:38%;height:72%;right:18%;top:14%;border:1px solid rgba(216,204,186,.22);transform:rotate(4deg)}.craft-motif span,.craft-motif i{position:absolute;left:14%;right:42%;height:1px;background:rgba(216,204,186,.22)}.craft-motif span{top:35%}.craft-motif i:nth-of-type(1){top:45%}.craft-motif i:nth-of-type(2){top:55%;right:50%}.craft-motif i:nth-of-type(3){top:65%}.craft-motif b{position:absolute;right:7%;bottom:0;font-family:var(--serif);font-size:6rem;font-weight:350;color:rgba(216,204,186,.08)}.craft-marks i:nth-of-type(2){background:#b86f4b;transform:rotate(-6deg)}.craft-sound span,.craft-sound i{background:linear-gradient(90deg,transparent,#d8ccba,transparent)}
+@media(max-width:900px){.author-reality .editorial-carousel{width:100%}.craft-sticky{display:block}.craft-page{display:none}.craft-steps{padding-top:4rem}}
+@media(max-width:600px){.author-reality .editorial-carousel{width:100%}}
+</style>

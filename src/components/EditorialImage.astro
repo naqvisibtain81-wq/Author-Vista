@@ -1,0 +1,28 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  caption?: string;
+  class?: string;
+  position?: string;
+  priority?: boolean;
+}
+const {
+  src,
+  alt,
+  width = 1200,
+  height = 1800,
+  caption,
+  class: className = "",
+  position = "center",
+  priority = false,
+} = Astro.props;
+---
+<figure class:list={["editorial-image", className]} data-image-reveal>
+  <div class="editorial-image-frame">
+    <img src={src} alt={alt} width={width} height={height} style={`object-position:${position}`} loading={priority ? "eager" : "lazy"} fetchpriority={priority ? "high" : "auto"} decoding="async" />
+  </div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

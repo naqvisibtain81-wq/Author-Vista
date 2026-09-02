@@ -1,0 +1,7 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro"; import PageHero from "../components/PageHero.astro"; import InquiryForm from "../components/InquiryForm.astro";
+---
+<BaseLayout title="Schedule an Introductory Call" description="Tell Author Vista about your manuscript stage and publishing goals to prepare for an introductory conversation." noindex={true}>
+  <PageHero eyebrow="Start a conversation" title="Begin with where the book stands today." intro="A focused first conversation to understand your project, discuss potentially relevant services and decide whether Author Vista may be a suitable partner." />
+  <section class="section"><div class="shell form-shell"><div><InquiryForm mode="call" /></div><aside class="sidebar-note" data-sequence><div class="service-motif motif-voice" aria-hidden="true"><span></span><i></i><i></i><i></i><b>01</b></div><div data-sequence-item><h2>What this call includes, and what it does not</h2><p>The call is intended to understand your book, current stage, goals and possible next step.</p><p>It does not include a complimentary manuscript evaluation, completed publishing strategy or professional deliverable.</p><p class="notice"><strong>Preview status:</strong> Scheduling and secure form delivery will be connected only after business contact and privacy details are approved.</p></div></aside></div></section>
+</BaseLayout>

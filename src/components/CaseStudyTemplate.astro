@@ -1,0 +1,22 @@
+---
+interface Props { projectTitle?: string; status?: "development" | "approved"; }
+const { projectTitle = "Approved project title", status = "development" } = Astro.props;
+---
+<article class="case-study-template" data-status={status}>
+  <header class="case-study-intro"><p class="eyebrow">Case study structure</p><h2>{projectTitle}</h2><p>{status === "development" ? "Development placeholder. No project, author or result is being claimed." : "Selected project context and verified outcomes."}</p></header>
+  <div class="case-study-sections">
+    {[
+      ["Starting point","The approved manuscript stage and source material."],
+      ["Challenge","The verified editorial, creative or publishing problem."],
+      ["Approach","The agreed strategy, responsibilities and milestones."],
+      ["Writing and editorial process","Approved excerpts or process details where permission allows."],
+      ["Design development","Cover, illustration, typography and interior decisions."],
+      ["Publishing assistance","Platforms, metadata and account control, accurately described."],
+      ["Final assets","Approved cover, spreads, files and publication links."],
+      ["Verified outcomes","Only documented results that the client permits Author Vista to publish."],
+      ["Client quotation","Published only with the client’s exact wording and permission."],
+      ["Related projects","Other genuine work with display rights."],
+    ].map(([title,text], index) => <section><span>{String(index + 1).padStart(2,"0")}</span><h3>{title}</h3><p>{text}</p></section>)}
+  </div>
+  <a class="button" href="/schedule-a-call/">Discuss your book</a>
+</article>

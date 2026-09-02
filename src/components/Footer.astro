@@ -1,0 +1,82 @@
+---
+import BrandMark from "./BrandMark.astro";
+import RegionFlag from "./RegionFlag.astro";
+const regions = [
+  { code: "us" as const, label: "United States" },
+  { code: "gb" as const, label: "United Kingdom" },
+  { code: "au" as const, label: "Australia" },
+  { code: "ca" as const, label: "Canada" },
+  { code: "eu" as const, label: "European Union" },
+];
+const importantServices = [
+  ["Book Ghostwriting", "book-ghostwriting"],
+  ["Book Editing", "book-editing"],
+  ["Book Cover Design", "book-cover-design"],
+  ["Book Formatting", "book-formatting"],
+  ["Publishing Assistance", "publishing-assistance"],
+  ["Audiobook Production", "audiobook-production"],
+  ["Book Marketing", "book-marketing"],
+];
+const isProduction = import.meta.env.PUBLIC_SITE_STATUS === "production";
+// TODO: REPLACE WITH VERIFIED BUSINESS DETAILS BEFORE PRODUCTION.
+// These values are layout-only development placeholders and are excluded from structured data.
+const demoContact = {
+  address: "[DEMO ADDRESS: 120 Vista House, London, United Kingdom]",
+  email: "[DEMO EMAIL: hello@authorvista.com]",
+  phone: "[DEMO PHONE: +44 20 0000 0000]",
+};
+---
+<footer class="site-footer">
+  <div class="footer-glow" aria-hidden="true"></div>
+  <section class="shell footer-statement" data-sequence aria-labelledby="footer-statement-title">
+    <p class="eyebrow light" data-sequence-item>The wider horizon</p>
+    <h2 id="footer-statement-title" data-sequence-item><span>A clearer path from the book you imagine</span><span>to the book your readers can hold.</span></h2>
+    <div data-sequence-item><a class="button button-light" href="/schedule-a-call/">Schedule an introductory call</a></div>
+  </section>
+  <div class="footer-horizon" aria-hidden="true"><span></span></div>
+
+  <div class="shell footer-main footer-main-simplified" data-sequence>
+    <section class="footer-brand-column" data-sequence-item>
+      <BrandMark />
+      <p class="footer-brand-statement">Writing, editing, design, publishing and marketing support, thoughtfully coordinated around your book.</p>
+      <p class="footer-factual">Author Vista is a publishing services and assisted self publishing partner. Supporting authors across the United States, United Kingdom, Australia, Canada and the European Union.</p>
+    </section>
+
+    <nav class="footer-explore" aria-label="Explore Author Vista" data-sequence-item>
+      <h2>Explore</h2>
+      <a href="/services/">Services</a><a href="/portfolio/">Portfolio</a><a href="/how-it-works/">How it works</a><a href="/ownership-and-publishing-control/">Ownership</a><a href="/about/">About</a><a href="/resources/">Resources</a><a href="/contact/">Contact</a>
+    </nav>
+
+    <nav class="footer-important-services" aria-label="Important services" data-sequence-item>
+      <h2>Important services</h2>
+      {importantServices.map(([title, slug]) => <a href={`/services/${slug}/`}>{title}</a>)}
+    </nav>
+
+    <section class="footer-contact-column" data-sequence-item>
+      <h2>Contact</h2>
+      {!isProduction ? <address>
+        <span>{demoContact.address}</span>
+        <span>{demoContact.email}</span>
+        <span>{demoContact.phone}</span>
+      </address> : <p>Verified public business details will appear here when supplied.</p>}
+      {!isProduction && <p class="footer-demo-note">Development placeholders. Replace with verified business details before production.</p>}
+    </section>
+
+    <nav class="footer-conversation-column" aria-label="Conversation and policies" data-sequence-item>
+      <h2>Conversation and policies</h2>
+      <a href="/schedule-a-call/">Schedule an introductory call</a>
+      <a href="/request-a-quote/">Request a custom quote</a>
+      <a href="/privacy-policy/">Privacy</a>
+      <a href="/terms-and-conditions/">Terms</a>
+      <a href="/cancellation-policy/">Cancellation policy</a>
+    </nav>
+  </div>
+
+  <section class="region-ribbon" aria-labelledby="regions-title">
+    <div class="shell region-heading"><p class="eyebrow light" id="regions-title">Markets we support</p><p>Supporting authors internationally without implying physical offices in these regions.</p></div>
+    <ul class="sr-only">{regions.map((region) => <li>{region.label}</li>)}</ul>
+    <div class="region-marquee" tabindex="0" aria-label="Markets supported by Author Vista"><div class="region-track">{[0,1,2,3,4,5].map(() => <div class="region-set" aria-hidden="true">{regions.map((region) => <RegionFlag code={region.code} label={region.label} />)}</div>)}</div></div>
+  </section>
+
+  <div class="shell footer-closing"><p>The horizon becomes clearer when every stage serves the same book.</p><div><span>&copy; {new Date().getFullYear()} Author Vista. Preview website.</span><span>Business identity and contact details pending client confirmation.</span></div></div>
+</footer>

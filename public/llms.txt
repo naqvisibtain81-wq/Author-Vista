@@ -1,0 +1,23 @@
+# Author Vista
+
+> Author Vista is an end-to-end publishing-services and assisted self-publishing partner for authors in the United States, United Kingdom and beyond.
+
+## Core facts
+
+- Author Vista is not a traditional publisher.
+- Authors retain copyright, publishing-account control where platforms permit, and royalties.
+- Services are intended to cover manuscript development, editing, book design, publishing assistance, audiobook production and author marketing.
+- Projects are quoted individually.
+- No sales, ranking, bestseller, review or media outcomes are guaranteed.
+
+## Primary pages
+
+- /: company overview and author stage routing
+- /services/: publishing services overview
+- /how-it-works/: project process
+- /ownership-and-publishing-control/: rights, royalties and account control
+- /frequently-asked-questions/: visible buyer questions and answers
+
+## Preview status
+
+The current site is a non-indexable preview. Legal identity, contact details, portfolio, testimonials and verified credentials remain pending and must not be inferred.

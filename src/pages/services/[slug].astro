@@ -1,0 +1,81 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import CTA from "../../components/CTA.astro";
+import ServiceFitComparison from "../../components/ServiceFitComparison.astro";
+import { servicePages } from "../../data/services";
+import { serviceGroups } from "../../data/site";
+
+const legacyPages = serviceGroups.filter((group) => !servicePages.some((service) => service.slug === group.slug)).map((group) => ({
+  slug: group.slug,
+  title: group.title,
+  group: "Publishing pathway",
+  eyebrow: group.emotionalTitle,
+  intro: group.intro,
+  forWhom: ["Authors beginning at this stage of the publishing process", "Projects requiring coordinated specialist support", "Authors who want a tailored scope instead of a fixed package"],
+  problems: ["The next professional step is unclear", "Several services need to remain connected", "The author wants reliable approval points and ownership clarity"],
+  included: group.items,
+  clientProvides: ["The latest available manuscript or source material", "Project goals, reader context and relevant specifications", "Timely feedback and approval at agreed stages"],
+}));
+export function getStaticPaths(){
+  const legacy = serviceGroups.filter((group) => !servicePages.some((service) => service.slug === group.slug)).map((group) => ({
+    slug: group.slug,
+    title: group.title,
+    group: "Publishing pathway",
+    eyebrow: group.emotionalTitle,
+    intro: group.intro,
+    forWhom: ["Authors beginning at this stage of the publishing process", "Projects requiring coordinated specialist support", "Authors who want a tailored scope instead of a fixed package"],
+    problems: ["The next professional step is unclear", "Several services need to remain connected", "The author wants reliable approval points and ownership clarity"],
+    included: group.items,
+    clientProvides: ["The latest available manuscript or source material", "Project goals, reader context and relevant specifications", "Timely feedback and approval at agreed stages"],
+  }));
+  return [...servicePages, ...legacy].map((service) => ({ params: { slug: service.slug }, props: { service } }));
+}
+const { service } = Astro.props;
+const serviceNumber = [...servicePages, ...legacyPages].findIndex((item)=>item.slug===service.slug) + 1;
+const related = servicePages.filter((item) => item.slug !== service.slug && (item.group === service.group || item.group === "Publishing")).slice(0,3);
+const faqItems = [
+  [`How is ${service.title.toLowerCase()} scoped?`, `The scope is based on the material you already have, the condition of the project, your intended outcome and the level of support required. Deliverables, milestones, revision stages and responsibilities are confirmed before paid work begins.`],
+  ["Will my voice and decisions remain part of the work?", "Yes. The brief records the voice, reader and creative boundaries that matter to you. Agreed review stages give you a clear opportunity to respond before major decisions are approved."],
+  ["Who owns the work?", "You retain ownership of your manuscript, copyright, approved content, publishing accounts and royalties. Any treatment of licensed fonts, stock assets, editable working files or specialist rights is defined in the client agreement."],
+  ["How are revisions handled?", "The quotation identifies the number and purpose of review rounds. Feedback is gathered at agreed milestones so that changes can be considered coherently instead of arriving through disconnected instructions."],
+  ["How long will the service take?", "Timing depends on length, complexity, project condition, response time and the agreed deliverables. Author Vista does not publish a universal timeline. A project schedule is prepared with the quotation."],
+  ["How is confidentiality handled?", "Project material should be shared only through the agreed project route and used for the defined service. Detailed confidentiality obligations, access and retention should be stated in the client agreement."],
+  ["What happens before work begins?", "An introductory conversation establishes the manuscript stage, objectives and potential fit. If the project appears suitable, Author Vista requests the information needed to prepare a paid scope and custom quotation."],
+  ["Does this service guarantee publication results?", "No. Professional work can improve clarity, presentation and readiness, but Author Vista does not guarantee sales, reviews, rankings, retailer acceptance, media coverage or bestseller outcomes."],
+];
+const schema = [
+  { "@type":"Service", name:service.title, description:service.intro, provider:{"@type":"Organization",name:"Author Vista"}, areaServed:["United States","United Kingdom","Australia","Canada","European Union"] },
+  { "@type":"FAQPage", mainEntity:faqItems.map(([question,answer]) => ({"@type":"Question",name:question,acceptedAnswer:{"@type":"Answer",text:answer}})) },
+];
+---
+<BaseLayout title={`${service.title} Services`} description={`${service.intro} Learn what is included, how approvals work and what Author Vista needs from you.`} schema={schema}>
+  <PageHero eyebrow={service.group} title={service.title} intro={service.intro} />
+
+  <section class="section service-detail-opening"><div class="shell service-detail-grid">
+    <div data-sequence><p class="eyebrow" data-sequence-item>Why this work matters</p><h2 data-sequence-item>{service.eyebrow}</h2><p class="lede" data-sequence-item>{service.intro}</p></div>
+    <div class="service-detail-motif" aria-hidden="true"><span></span><i></i><i></i><b>{String(serviceNumber).padStart(2,"0")}</b></div>
+  </div></section>
+
+  <ServiceFitComparison forWhom={service.forWhom} problems={service.problems} />
+
+  <section class="section"><div class="shell scope-ledger-grid">
+    <div data-sequence><p class="eyebrow" data-sequence-item>Potential scope</p><h2 data-sequence-item>What the work may include.</h2><p class="lede" data-sequence-item>These are service areas, not a fixed package. The quotation identifies the deliverables appropriate to your project.</p></div>
+    <ol class="service-scope-list" data-sequence>{service.included.map((item, index) => <li data-sequence-item><span>{String(index+1).padStart(2,"0")}</span><strong>{item}</strong></li>)}</ol>
+  </div></section>
+
+  <section class="section surface-forest"><div class="shell approval-path">
+    <div data-sequence><p class="eyebrow light" data-sequence-item>Working process</p><h2 data-sequence-item>Brief. Develop. Review. Approve.</h2><p class="lede" data-sequence-item>Each stage creates the information needed for the next one. The exact sequence is confirmed in the project scope.</p></div>
+    <ol data-sequence>{[["01","Understand","Review the material, audience, objective and constraints."],["02","Define","Agree the deliverables, milestones, responsibilities and schedule."],["03","Develop","Complete the professional work in the approved direction."],["04","Review","Gather author feedback at the agreed decision point."],["05","Approve","Confirm the final work or the next production stage."]].map(([number,title,text]) => <li data-sequence-item><span>{number}</span><h3>{title}</h3><p>{text}</p></li>)}</ol>
+  </div></section>
+
+  <section class="section"><div class="shell detail-columns">
+    <div data-sequence><p class="eyebrow" data-sequence-item>What you provide</p><h2 data-sequence-item>The clearest work begins with a reliable source of truth.</h2><ul class="detail-list" data-sequence>{service.clientProvides.map((item) => <li data-sequence-item>{item}</li>)}</ul></div>
+    <div class="ownership-note" data-sequence><p class="eyebrow" data-sequence-item>Ownership and confidentiality</p><h2 data-sequence-item>The book remains yours.</h2><p data-sequence-item>Author Vista provides professional services. The author retains the manuscript, copyright, publishing identity, controlled platform accounts and royalties. Project access, licensed assets, editable files and confidentiality duties are defined in the client agreement.</p><a class="text-link" href="/ownership-and-publishing-control/" data-sequence-item>Read about ownership and control <span aria-hidden="true">&rarr;</span></a></div>
+  </div></section>
+
+  <section class="section surface-parchment"><div class="shell related-services"><div><p class="eyebrow">Related services</p><h2>Keep connected decisions in view.</h2></div><div>{related.map((item) => <a href={`/services/${item.slug}/`}><span>{item.group}</span><strong>{item.title}</strong><i aria-hidden="true">&rarr;</i></a>)}</div></div></section>
+
+  <section class="section service-faq"><div class="shell faq-layout"><div><p class="eyebrow">Questions authors ask</p><h2>Clear answers before the scope is agreed.</h2></div><div class="faq-list">{faqItems.map(([question,answer]) => <details><summary>{question}</summary><p>{answer}</p></details>)}</div></div></section>
+  <CTA title={`Discuss ${service.title.toLowerCase()} for your book.`} text="The introductory call identifies the manuscript stage, the support that may be relevant and the information needed for a tailored quotation." />
+</BaseLayout>

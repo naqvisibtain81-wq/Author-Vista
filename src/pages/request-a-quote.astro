@@ -1,0 +1,7 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro"; import PageHero from "../components/PageHero.astro"; import InquiryForm from "../components/InquiryForm.astro";
+---
+<BaseLayout title="Request a Custom Publishing Quote" description="Share your manuscript stage, genre, goals and required services so Author Vista can understand the scope of your project." noindex={true}>
+  <PageHero eyebrow="Tailored scope" title="Tell us about your manuscript." intro="Every book requires a different level of editorial, creative and publishing support. A quotation follows an understanding of your manuscript, goals and timeline." />
+  <section class="section"><div class="shell form-shell"><div><InquiryForm mode="quote" /></div><aside class="sidebar-note"><h2>What can affect a quotation?</h2><p>Manuscript stage, word count, genre, editorial condition, required services, illustration needs, publishing formats, marketing scope and timeline.</p><p>Author Vista does not display artificial package discounts or scopes with fixed prices that ignore the condition of the book.</p></aside></div></section>
+</BaseLayout>

@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import EditorialCarousel from "../../components/EditorialCarousel.astro";
+import CTA from "../../components/CTA.astro";
+import { serviceGroups } from "../../data/site";
+import { serviceMenuGroups } from "../../data/services";
+const serviceSlides = serviceGroups.map((service, index) => ({
+  eyebrow: ["Voice and structure","Clarity and refinement","Form and production","Accounts and platforms","Narration and sound","Positioning and discovery"][index],
+  title: service.title,
+  text: service.intro,
+  motif: service.visualMode,
+  href: `/services/${service.slug}/`,
+  linkLabel: "Explore this service",
+}));
+---
+<BaseLayout title="Writing, Editing and Publishing Services" description="Explore Author Vista writing, editing, design, self publishing, audiobook and author marketing service areas.">
+  <PageHero eyebrow="Services" title="One book. Many kinds of craft. One considered path." intro="Author Vista coordinates writing, editorial, design, publishing and marketing services around the manuscript you have. The work is not forced into a standard package." />
+
+  <section class="section services-overture"><div class="shell editorial-split compact">
+    <div data-sequence><p class="eyebrow" data-sequence-item>Connected expertise</p><h2 data-sequence-item>A book rarely moves forward through one skill alone.</h2></div>
+    <p class="lede" data-reveal>Writing decisions affect editing. Editing affects design. Design affects production. Author Vista helps connect the people and decisions involved, so the manuscript is not passed between disconnected stages without a shared view of the result.</p>
+  </div></section>
+
+  <section class="service-journey" aria-labelledby="service-journey-title"><div class="shell service-journey-heading" data-sequence><p class="eyebrow light" data-sequence-item>Publishing as one connected journey</p><h2 id="service-journey-title" data-sequence-item>Move through the craft behind the finished book.</h2><p class="lede" data-sequence-item>Each stage has a distinct purpose. Together, they create a coherent path from the first idea to readers.</p></div><EditorialCarousel label="Author Vista publishing services" slides={serviceSlides} mode="journey" /></section>
+
+  <section class="section service-directory" aria-labelledby="service-directory-title">
+    <div class="shell service-directory-layout">
+      <div class="service-directory-intro" data-sequence>
+        <p class="eyebrow" data-sequence-item>Explore every service</p>
+        <h2 id="service-directory-title" data-sequence-item>Start with the exact kind of support your book needs.</h2>
+        <p class="lede" data-sequence-item>Each service page explains fit, scope, inputs, approvals, ownership and the questions authors commonly ask.</p>
+      </div>
+      <div class="service-directory-groups">
+        {serviceMenuGroups.map((group) => <section class="service-directory-group">
+          <h3 class="eyebrow">{group.group === "Design" ? "Design and Production" : group.group === "Publishing" ? "Publishing and Media" : group.group === "Platform" ? "Author Platform" : group.group}</h3>
+          <div class="service-directory-links">
+            {group.items.map((service) => <a href={`/services/${service.slug}/`}>
+              <strong>{service.title}</strong>
+              <span>{service.eyebrow}</span>
+              <i aria-hidden="true">&rarr;</i>
+            </a>)}
+          </div>
+        </section>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section surface-parchment"><div class="shell editorial-split" data-sequence><div data-sequence-item><p class="eyebrow">How scope is decided</p><h2>No two manuscripts require the same route.</h2></div><div class="prose" data-sequence-item><p>Every book receives a tailored quotation based on manuscript stage, word count, genre, editorial condition, required services, illustration needs, publishing formats, marketing scope and timeline.</p><p>Final service availability, delivery roles and platform responsibilities are confirmed in the written project scope.</p><a class="text-link" href="/request-a-quote/">Tell us about your manuscript <span>→</span></a></div></div></section>
+  <CTA title="Where should your book begin?" text="Begin with the manuscript you have and the result you want. The first conversation can help make the service path clearer." />
+</BaseLayout>

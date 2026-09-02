@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CTA from "../../components/CTA.astro";
+import { portfolioProjects } from "../../data/portfolio";
+
+export function getStaticPaths() {
+  const production = import.meta.env.PUBLIC_SITE_STATUS === "production";
+  return portfolioProjects.filter((project) => project.status === "approved" || !production).map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+const { project } = Astro.props;
+const isDevelopment = project.status === "development";
+---
+<BaseLayout title={`${project.category} Portfolio Project`} description={`A ${isDevelopment ? "development framework for a future" : "selected"} Author Vista ${project.category.toLowerCase()} case study.`} noindex={isDevelopment}>
+  <article class="portfolio-case-study">
+    <header class="portfolio-case-hero ink-scene" data-project-hero>
+      <div class="shell portfolio-case-hero-grid"><div><p class="eyebrow light">{isDevelopment ? "Development case study framework" : project.category}</p><h1>{project.title}</h1><p>{isDevelopment ? "No client, book or result is being claimed. This private placeholder demonstrates how approved project evidence will be presented." : project.contribution}</p><a class="text-link light" href="/portfolio/">Back to Portfolio <span aria-hidden="true">↙</span></a></div><div class:list={["portfolio-case-visual", `portfolio-tile-${project.format}`]}><span>Approved project artwork required</span><i></i><b>{project.category}</b></div></div>
+    </header>
+    <section class="section"><div class="shell portfolio-case-details">
+      {[['Author',project.author],['Genre',project.genre],['Services',project.services.join(', ')],['Starting point',project.startingPoint],['Challenge',project.challenge],['Author Vista contribution',project.contribution],['Writing or editorial process','Approved process explanation required.'],['Design process','Approved design development and assets required.'],['Publishing assistance','Confirmed platforms and account responsibilities required.'],['Final assets',project.outcome],['Verified outcomes','Documented result and publication permission required.'],['Approved testimonial','Exact client wording and permission required.']].map(([label,value],index)=><section><span>{String(index+1).padStart(2,'0')}</span><div><p class="eyebrow">{label}</p><h2>{value}</h2></div></section>)}
+    </div></section>
+    <CTA title="Discuss the book you are shaping." text="An introductory call helps establish the manuscript stage, publishing goal and the support that may be appropriate." />
+  </article>
+</BaseLayout>

@@ -1,0 +1,122 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CTA from "../components/CTA.astro";
+import PortfolioTile from "../components/PortfolioTile.astro";
+import { portfolioFilters, portfolioProjects } from "../data/portfolio";
+
+const isProduction = import.meta.env.PUBLIC_SITE_STATUS === "production";
+const projects = portfolioProjects.filter((project) => project.status === "approved" || !isProduction);
+const approvedCount = projects.filter((project) => project.status === "approved").length;
+const laneFormats = ["portrait", "landscape", "square"] as const;
+const collectionSchema = {
+  "@type": "CollectionPage",
+  name: "Author Vista Portfolio",
+  description: "Selected writing, editing, design and publishing projects displayed only after approval and permission.",
+  url: new URL("/portfolio/", Astro.site).toString(),
+};
+---
+<BaseLayout title="Publishing Portfolio" description="Selected Author Vista writing, editing, design and publishing projects, presented with context and displayed only with permission." noindex={!isProduction || approvedCount === 0} schema={collectionSchema}>
+  <section class="portfolio-opening" data-portfolio-opening aria-labelledby="portfolio-title">
+    <div class="portfolio-opening-stage">
+      <div class="portfolio-opening-light" aria-hidden="true"></div>
+      <div class="shell portfolio-opening-copy">
+        <p class="eyebrow light">Portfolio</p>
+        <h1 id="portfolio-title"><span>Books shaped</span><span>with purpose.</span></h1>
+        <p>A selected view of writing, editing, design and publishing work brought together through one considered process.</p>
+        {!isProduction && <span class="portfolio-preview-note">Development preview. No placeholder is presented as client work.</span>}
+      </div>
+      {projects.slice(0,6).map((project,index) => <div class:list={["portfolio-opening-tile", `opening-tile-${index+1}`]} aria-hidden="true"><div class="opening-tile-inner"><span>{project.category}</span><i></i><b>{String(index+1).padStart(2,"0")}</b></div></div>)}
+      <div class="portfolio-scroll-cue" aria-hidden="true"><span></span>Scroll to enter the collection</div>
+    </div>
+  </section>
+
+  <section class="portfolio-showcase ink-scene" aria-labelledby="portfolio-collection-title" data-portfolio-showcase>
+    <div class="shell portfolio-collection-intro">
+      <div><p class="eyebrow light">Selected projects</p><h2 id="portfolio-collection-title">An editorial exhibition, ready for work that can be verified.</h2></div>
+      <p>{approvedCount > 0 ? "Explore selected projects and the decisions behind them." : "Real project assets and case studies will appear here only after display rights, attribution and publication details are approved."}</p>
+    </div>
+    <div class="shell portfolio-filter-wrap">
+      <div class="portfolio-filters" role="group" aria-label="Filter portfolio by service">
+        {portfolioFilters.map((filter,index) => <button type="button" data-portfolio-filter={filter} aria-pressed={index === 0 ? "true" : "false"}>{filter}</button>)}
+      </div>
+      <p class="sr-only" aria-live="polite" data-portfolio-status>{projects.length} development portfolio positions shown.</p>
+    </div>
+    {projects.length > 0 ? <div class="portfolio-lanes" data-portfolio-lanes>
+      {laneFormats.map((format,laneIndex) => <div class:list={["portfolio-lane", `portfolio-lane-${laneIndex+1}`]} data-portfolio-lane>
+        <div class="portfolio-lane-track">
+          {[0,1].map((sequenceIndex) => <div class="portfolio-sequence" aria-hidden={sequenceIndex === 1 ? "true" : undefined}>
+            {projects.map((project,index) => <PortfolioTile project={project} format={format} index={index} duplicate={sequenceIndex === 1} />)}
+          </div>)}
+        </div>
+      </div>)}
+    </div> : <div class="shell portfolio-empty"><p class="eyebrow light">Awaiting approved work</p><h3>The exhibition will open when genuine project assets are ready.</h3><p>No fictional covers, author names or outcomes are being used to fill the space.</p></div>}
+  </section>
+
+  <section class="section portfolio-framework">
+    <div class="shell portfolio-framework-grid">
+      <div><p class="eyebrow">Case study structure</p><h2>Every project should explain the thinking, not merely display a cover.</h2><p>Each approved case study is prepared to show the starting point, challenge, contribution, process, final assets, publishing route and verified outcome.</p></div>
+      <ol>{["Display permission and attribution","Project context and services","Writing or editorial process","Design and production decisions","Publishing assistance and account control","Approved assets and verified outcomes"].map((item,index)=><li><span>{String(index+1).padStart(2,"0")}</span>{item}</li>)}</ol>
+    </div>
+  </section>
+  <CTA title="A book becomes portfolio work only with permission." text="Begin with a conversation about the manuscript, the support it may need and whether Author Vista is a suitable publishing services partner." />
+</BaseLayout>
+
+<script>
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const forceReduced = document.body.classList.contains("reduced-motion-test") || new URLSearchParams(location.search).has("reduced-motion");
+  const opening = document.querySelector<HTMLElement>("[data-portfolio-opening]");
+  let openingFrame = 0;
+  const updateOpening = () => {
+    if (!opening || reducedMotion.matches || forceReduced) return;
+    cancelAnimationFrame(openingFrame);
+    openingFrame = requestAnimationFrame(() => {
+      const rect = opening.getBoundingClientRect();
+      const range = Math.max(1, opening.offsetHeight - innerHeight);
+      opening.style.setProperty("--portfolio-progress", String(Math.max(0, Math.min(1, -rect.top / range))));
+    });
+  };
+  updateOpening();
+  addEventListener("scroll", updateOpening, { passive: true });
+
+  const lanes = document.querySelector<HTMLElement>("[data-portfolio-lanes]");
+  const laneObserver = lanes ? new IntersectionObserver(([entry]) => lanes.toggleAttribute("data-inview", entry.isIntersecting), { rootMargin: "20% 0px" }) : null;
+  if (lanes && laneObserver) laneObserver.observe(lanes);
+
+  const filterButtons = [...document.querySelectorAll<HTMLButtonElement>("[data-portfolio-filter]")];
+  const tiles = [...document.querySelectorAll<HTMLAnchorElement>("[data-portfolio-tile]")];
+  const status = document.querySelector<HTMLElement>("[data-portfolio-status]");
+  filterButtons.forEach((button) => button.addEventListener("click", () => {
+    const selected = button.dataset.portfolioFilter ?? "All Portfolio";
+    filterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+    let matches = 0;
+    tiles.forEach((tile) => {
+      const match = selected === "All Portfolio" || tile.dataset.category === selected;
+      tile.toggleAttribute("data-filter-match", match);
+      tile.toggleAttribute("data-filter-dim", !match);
+      if (match && tile.getAttribute("aria-hidden") !== "true") matches++;
+    });
+    if (status) status.textContent = `${matches} portfolio position${matches === 1 ? "" : "s"} highlighted for ${selected}.`;
+  }));
+
+  const savePortfolioPosition = (event: Event) => {
+    const link = (event.target as Element).closest<HTMLAnchorElement>("[data-portfolio-tile]");
+    if (!link) return;
+    sessionStorage.setItem("authorVistaPortfolioScroll", String(scrollY));
+    if (!reducedMotion.matches && !forceReduced) {
+      event.preventDefault();
+      link.setAttribute("data-opening", "");
+      setTimeout(() => location.href = link.href, 360);
+    }
+  };
+  document.addEventListener("click", savePortfolioPosition);
+  addEventListener("pageshow", (event) => {
+    if (!(event as PageTransitionEvent).persisted && !document.referrer.includes("/portfolio/")) return;
+    const stored = sessionStorage.getItem("authorVistaPortfolioScroll");
+    if (stored) requestAnimationFrame(() => scrollTo(0, Number(stored)));
+  });
+  addEventListener("pagehide", () => {
+    removeEventListener("scroll", updateOpening);
+    laneObserver?.disconnect();
+    cancelAnimationFrame(openingFrame);
+  }, { once: true });
+</script>

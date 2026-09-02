@@ -1,0 +1,37 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  intro: string;
+  image?: string;
+  alt?: string;
+  position?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+}
+const {
+  eyebrow = "Author Vista",
+  title,
+  intro,
+  image,
+  alt = "",
+  position = "center",
+  imageWidth = 1200,
+  imageHeight = 1800,
+} = Astro.props;
+---
+<section class="page-hero ink-scene">
+  <div class="page-hero-glow" aria-hidden="true"></div>
+  <div class="shell page-hero-grid">
+    <div class="narrow-copy" data-sequence>
+      <p class="eyebrow light" data-sequence-item>{eyebrow}</p>
+      <h1 data-sequence-item>{title}</h1>
+      <p class="lede" data-sequence-item>{intro}</p>
+    </div>
+    {image ? <figure class="page-hero-image" data-image-reveal>
+      <div><img src={image} alt={alt} width={imageWidth} height={imageHeight} style={`object-position:${position}`} fetchpriority="high" decoding="async" /></div>
+      <figcaption>Editorial image</figcaption>
+    </figure> : <div class="page-object" aria-hidden="true"><span>Author Vista</span><i></i><i></i><i></i><b>From first page<br />to wider horizon</b></div>}
+  </div>
+  <div class="horizon-line" aria-hidden="true"><span></span></div>
+</section>

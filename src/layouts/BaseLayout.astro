@@ -1,0 +1,124 @@
+---
+import "@fontsource-variable/newsreader";
+import "@fontsource-variable/source-sans-3";
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  noindex?: boolean;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+}
+const { title, description, image = "/social-card.svg", noindex = false, schema } = Astro.props;
+const isProduction = import.meta.env.PUBLIC_SITE_STATUS === "production";
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const fullTitle = title.includes("Author Vista") ? title : `${title} | Author Vista`;
+const organization = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Author Vista",
+  url: Astro.site?.toString(),
+  description: "An end to end publishing services and assisted self publishing partner.",
+  areaServed: ["United States", "United Kingdom", "Australia", "Canada", "European Union"],
+};
+const graph = schema ? [organization, ...(Array.isArray(schema) ? schema : [schema])] : [organization];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <script is:inline>document.documentElement.classList.add("js")</script>
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={!isProduction || noindex ? "noindex, nofollow" : "index, follow"} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Author Vista" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#101820" />
+    <link rel="icon" href="/brand/author-vista-approved-mark.png" type="image/png" />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({ "@context": "https://schema.org", "@graph": graph.map(({["@context"]: _, ...item}) => item) })} />
+  </head>
+  <body class:list={{ "home-page": Astro.url.pathname === "/" }}>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="reading-progress" aria-hidden="true"><span></span></div>
+    <Header />
+    <main id="main"><Breadcrumbs /><slot /></main>
+    <Footer />
+    <script>
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const previewParams = new URLSearchParams(window.location.search);
+      const forceReducedMotion = previewParams.has("reduced-motion");
+      if (forceReducedMotion) document.body.classList.add("reduced-motion-test");
+      if (previewParams.has("capture")) {
+        document.body.classList.add("capture-mode");
+        document.documentElement.style.scrollBehavior = "auto";
+      }
+      const previewChapter = previewParams.get("chapter");
+      if (previewChapter) requestAnimationFrame(() => document.getElementById(previewChapter)?.scrollIntoView());
+      const progressBar = document.querySelector<HTMLElement>(".reading-progress span");
+      const updateProgress = () => {
+        const distance = document.documentElement.scrollHeight - window.innerHeight;
+        if (progressBar) progressBar.style.transform = `scaleX(${distance > 0 ? window.scrollY / distance : 0})`;
+      };
+      updateProgress();
+      window.addEventListener("scroll", updateProgress, { passive: true });
+
+      if (!reducedMotion.matches && !forceReducedMotion) {
+        const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.setAttribute("data-visible", "");
+          observer.unobserve(entry.target);
+        }), { threshold: 0.16, rootMargin: "0px 0px -8%" });
+        document.querySelectorAll("[data-reveal], [data-sequence], [data-image-reveal]").forEach((element) => observer.observe(element));
+
+        document.querySelectorAll<HTMLElement>("[data-sequence]").forEach((group) => {
+          group.querySelectorAll<HTMLElement>("[data-sequence-item]").forEach((item, index) => item.style.setProperty("--sequence-order", String(index)));
+        });
+
+        const parallaxCleanups: Array<() => void> = [];
+        document.querySelectorAll<HTMLElement>("[data-parallax]").forEach((element) => {
+          const move = () => {
+            const rect = element.getBoundingClientRect();
+            if (rect.bottom > 0 && rect.top < innerHeight) element.style.setProperty("--parallax", `${(rect.top - innerHeight / 2) * -.035}px`);
+          };
+          move();
+          window.addEventListener("scroll", move, { passive: true });
+          parallaxCleanups.push(() => window.removeEventListener("scroll", move));
+        });
+        window.addEventListener("pagehide", () => parallaxCleanups.forEach((cleanup) => cleanup()), { once: true });
+
+        if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+          document.querySelectorAll<HTMLElement>("[data-depth-scene]").forEach((scene) => {
+            let frame = 0;
+            const updateDepth = (event: PointerEvent) => {
+              if (frame) cancelAnimationFrame(frame);
+              frame = requestAnimationFrame(() => {
+                const rect = scene.getBoundingClientRect();
+                scene.style.setProperty("--pointer-x", `${((event.clientX - rect.left) / rect.width - .5) * 2}`);
+                scene.style.setProperty("--pointer-y", `${((event.clientY - rect.top) / rect.height - .5) * 2}`);
+              });
+            };
+            scene.addEventListener("pointermove", updateDepth, { passive: true });
+            scene.addEventListener("pointerleave", () => {
+              scene.style.setProperty("--pointer-x", "0");
+              scene.style.setProperty("--pointer-y", "0");
+            });
+          });
+        }
+      } else {
+        document.querySelectorAll("[data-reveal], [data-sequence], [data-image-reveal]").forEach((element) => element.setAttribute("data-visible", ""));
+      }
+    </script>
+  </body>
+</html>
