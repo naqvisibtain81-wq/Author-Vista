@@ -1,0 +1,50 @@
+---
+// Site-wide chat support entry point. Not wired to a live chat provider yet —
+// shows a lightweight panel pointing people to the call/contact forms instead.
+// Swap the panel body for a real chat widget once chat support is connected.
+---
+<div class="chat-support" data-chat-support>
+  <div class="chat-support-panel" id="chat-support-panel" role="dialog" aria-label="Chat support" aria-hidden="true">
+    <p class="chat-support-title">Chat support is coming soon.</p>
+    <p>In the meantime, the fastest ways to reach Author Vista are below.</p>
+    <a class="button button-small" href="/schedule-a-call/">Schedule a call</a>
+    <a class="text-link" href="/contact/">Send a message instead <span aria-hidden="true">&rarr;</span></a>
+  </div>
+  <button type="button" class="chat-support-toggle" aria-expanded="false" aria-controls="chat-support-panel">
+    <svg viewBox="0 0 24 24" aria-hidden="true" width="24" height="24"><path d="M4 4h16v11H8l-4 4V4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+    <span class="sr-only">Chat support</span>
+  </button>
+</div>
+<script>
+  const root = document.querySelector<HTMLElement>("[data-chat-support]");
+  const toggle = root?.querySelector<HTMLButtonElement>(".chat-support-toggle");
+  const panel = root?.querySelector<HTMLElement>(".chat-support-panel");
+  const close = () => {
+    toggle?.setAttribute("aria-expanded", "false");
+    panel?.setAttribute("aria-hidden", "true");
+  };
+  toggle?.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!open));
+    panel?.setAttribute("aria-hidden", String(open));
+  });
+  document.addEventListener("pointerdown", (event) => {
+    if (!root || root.contains(event.target as Node)) return;
+    close();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") close();
+  });
+</script>
+<style>
+.chat-support{position:fixed;z-index:90;right:1.25rem;bottom:1.25rem}
+.chat-support-toggle{display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;border:1px solid var(--copper-dark);background:var(--copper-dark);color:#fff;cursor:pointer;box-shadow:0 12px 30px rgba(16,24,32,.28);transition:transform .2s var(--ease),box-shadow .2s}
+.chat-support-toggle:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(16,24,32,.34)}
+.chat-support-panel{position:absolute;right:0;bottom:calc(100% + .85rem);width:min(280px,80vw);background:var(--ink);color:var(--paper);border:1px solid var(--line-light);padding:1.2rem;box-shadow:0 26px 60px rgba(0,0,0,.32);opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .2s var(--ease),transform .2s var(--ease)}
+.chat-support-panel[aria-hidden="false"]{opacity:1;transform:none;pointer-events:auto}
+.chat-support-title{font-weight:720;margin:0 0 .4rem}
+.chat-support-panel p{font-size:.9rem;color:#c9d2cc;margin:0 0 1rem}
+.chat-support-panel .button-small{width:100%;margin-bottom:.7rem}
+.chat-support-panel .text-link{font-size:.86rem;color:var(--paper)}
+@media(max-width:600px){.chat-support{right:1rem;bottom:1rem}.chat-support-toggle{width:50px;height:50px}}
+</style>

@@ -1,7 +1,43 @@
-﻿---
+---
 import BaseLayout from "../layouts/BaseLayout.astro"; import PageHero from "../components/PageHero.astro";
 ---
-<BaseLayout title="Terms and Conditions, Preview Status" description="Preview status for the Author Vista website terms and conditions." noindex={true}>
-  <PageHero eyebrow="Legal content pending" title="Terms and conditions" intro="Production terms have not yet been supplied or legally reviewed." />
-  <section class="section"><div class="shell narrow prose"><p class="notice">Launch blocker: the legal entity, governing law, website use terms, intellectual property notices, service disclaimers and dispute provisions must be confirmed before publication.</p></div></section>
+<BaseLayout title="Terms and Conditions" description="The terms that govern use of the Author Vista website." noindex={true}>
+  <PageHero eyebrow="Draft, pending legal review" title="Terms and conditions" intro="This is a working draft covering use of this website. It has not yet been reviewed by a lawyer and should not be published or relied on until it has. It does not cover the separate, signed agreement that governs any paid project." />
+  <section class="section"><div class="shell narrow prose">
+    <p class="notice">Draft status: replace every bracketed placeholder below with confirmed business and legal details, then have this page reviewed by a qualified lawyer in your operating jurisdiction before removing the noindex tag and publishing it.</p>
+
+    <p><strong>Last updated:</strong> [DATE]</p>
+    <p>These terms govern your use of authorvista.com (the "site"), operated by [LEGAL ENTITY NAME] ("Author Vista", "we", "us"). By using the site you agree to these terms. They do not, on their own, create a contract for paid publishing services — that is set out separately in a written scope and client agreement once a project begins.</p>
+
+    <h2>What this site is</h2>
+    <p>Author Vista is an end to end publishing services and assisted self publishing partner. It is not a traditional publisher: it does not acquire manuscripts, offer publishing contracts, or take a percentage of book royalties. Content on this site is for general information about our services and working process, and does not constitute a quotation, offer or guarantee of any specific outcome.</p>
+
+    <h2>Use of the site</h2>
+    <ul>
+      <li>You must be at least 18 to submit an enquiry or quote request.</li>
+      <li>You agree to provide accurate information in any form you submit, and not to submit confidential manuscript text or files through the preview enquiry forms.</li>
+      <li>You agree not to use the site to transmit anything unlawful, infringing, or harmful to the site or other visitors.</li>
+    </ul>
+
+    <h2>No guaranteed outcomes</h2>
+    <p>Professional writing, editing, design, publishing and marketing support can improve a manuscript's clarity, presentation and readiness. It cannot guarantee sales, reviews, rankings, retailer acceptance, media coverage, or bestseller status. Nothing on this site should be read as a promise of a specific commercial result.</p>
+
+    <h2>Intellectual property</h2>
+    <p>The text, design, graphics and other content of this site belong to Author Vista or its licensors and are protected by copyright and other laws, except where stated otherwise. Nothing here transfers any right in Author Vista's own site content to you. This is separate from, and does not affect, your ownership of your own manuscript, which is addressed on our <a href="/ownership-and-publishing-control/">Ownership and control</a> page and in the client agreement for any project you engage us for.</p>
+
+    <h2>Third party links and platforms</h2>
+    <p>The site may reference third party publishing or distribution platforms (for example Amazon KDP, IngramSpark, Lulu, Apple Books, Kobo or Barnes & Noble). We do not control those platforms, and mentioning them does not imply a partnership, endorsement or guaranteed acceptance.</p>
+
+    <h2>Limitation of liability</h2>
+    <p>To the fullest extent permitted by law, Author Vista is not liable for any indirect, incidental or consequential loss arising from your use of this site. Nothing in these terms excludes or limits liability that cannot be excluded or limited under applicable law, including [add any liability that cannot be excluded under your governing law, e.g. liability for death or personal injury caused by negligence]. [Confirm the appropriate liability position with a lawyer for your jurisdiction and insurance arrangements.]</p>
+
+    <h2>Governing law</h2>
+    <p>These terms are governed by the laws of [GOVERNING LAW / JURISDICTION], and any dispute arising from them will be subject to the [COURTS/ARBITRATION FORUM] of that jurisdiction, without prejudice to any mandatory consumer protections available to you where you live.</p>
+
+    <h2>Changes to these terms</h2>
+    <p>We may update these terms from time to time. The "Last updated" date above reflects the most recent revision. Continued use of the site after a change means you accept the updated terms.</p>
+
+    <h2>Contact</h2>
+    <p>Questions about these terms can be sent to [CONTACT EMAIL] or [REGISTERED BUSINESS ADDRESS].</p>
+  </div></section>
 </BaseLayout>
