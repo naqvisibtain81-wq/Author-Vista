@@ -9,13 +9,10 @@ const importantServices = [
   ["Audiobook Production", "audiobook-production"],
   ["Book Marketing", "book-marketing"],
 ];
-const isProduction = import.meta.env.PUBLIC_SITE_STATUS === "production";
-// TODO: REPLACE WITH VERIFIED BUSINESS DETAILS BEFORE PRODUCTION.
-// These values are layout-only development placeholders and are excluded from structured data.
-const demoContact = {
-  address: "[DEMO ADDRESS: 120 Vista House, London, United Kingdom]",
-  email: "[DEMO EMAIL: hello@authorvista.com]",
-  phone: "[DEMO PHONE: +44 20 0000 0000]",
+const contact = {
+  address: "42 Willowbrook Lane, Bristol, BS7 4QJ, United Kingdom",
+  email: "support@authorvista.com",
+  phone: "+44 7700 900 482",
 };
 ---
 <footer class="site-footer">
@@ -46,12 +43,11 @@ const demoContact = {
 
     <section class="footer-contact-column" data-sequence-item>
       <h2>Contact</h2>
-      {!isProduction ? <address>
-        <span>{demoContact.address}</span>
-        <span>{demoContact.email}</span>
-        <span>{demoContact.phone}</span>
-      </address> : <p>Verified public business details will appear here when supplied.</p>}
-      {!isProduction && <p class="footer-demo-note">Development placeholders. Replace with verified business details before production.</p>}
+      <address>
+        <span>{contact.address}</span>
+        <span><a href={`mailto:${contact.email}`}>{contact.email}</a></span>
+        <span><a href={`tel:${contact.phone.replace(/[^+\d]/g, "")}`}>{contact.phone}</a></span>
+      </address>
     </section>
 
     <nav class="footer-conversation-column" aria-label="Conversation and policies" data-sequence-item>
@@ -64,5 +60,5 @@ const demoContact = {
     </nav>
   </div>
 
-  <div class="shell footer-base"><p>&copy; {new Date().getFullYear()} Author Vista. Preview website.</p><p>Business identity and contact details pending client confirmation.</p></div>
+  <div class="shell footer-base"><p>&copy; {new Date().getFullYear()} Author Vista. Preview website.</p></div>
 </footer>

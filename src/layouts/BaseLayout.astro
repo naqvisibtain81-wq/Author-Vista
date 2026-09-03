@@ -27,6 +27,15 @@ const organization = {
   url: Astro.site?.toString(),
   description: "An end to end publishing services and assisted self publishing partner.",
   areaServed: ["United States", "United Kingdom", "Australia", "Canada", "European Union"],
+  email: "support@authorvista.com",
+  telephone: "+44 7700 900 482",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "42 Willowbrook Lane",
+    addressLocality: "Bristol",
+    postalCode: "BS7 4QJ",
+    addressCountry: "United Kingdom",
+  },
 };
 const graph = schema ? [organization, ...(Array.isArray(schema) ? schema : [schema])] : [organization];
 ---
