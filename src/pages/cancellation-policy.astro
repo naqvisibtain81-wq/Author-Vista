@@ -1,21 +1,21 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro"; import PageHero from "../components/PageHero.astro";
+import BaseLayout from "../layouts/BaseLayout.astro"; import PageHero from "../components/PageHero.astro"; import LegalToc from "../components/LegalToc.astro";
 ---
 <BaseLayout title="Cancellation Policy" description="How project cancellation, rescheduling and refunds are intended to work at Author Vista." noindex={true}>
   <PageHero eyebrow="Draft, pending legal review" title="Cancellation policy" intro="This is a working draft describing how cancellations, rescheduling and refunds are intended to work. It has not yet been reviewed by a lawyer and should not be published or relied on until it has. The version in your signed client agreement always governs your actual project." />
-  <section class="section"><div class="shell narrow prose">
+  <section class="section"><div class="shell legal-layout"><div class="prose legal-prose">
     <p class="notice">Draft status: replace every bracketed placeholder below with confirmed business and legal details, then have this page reviewed by a qualified lawyer in your operating jurisdiction before removing the noindex tag and publishing it.</p>
 
     <p><strong>Last updated:</strong> [DATE]</p>
     <p>Because every project is scoped individually, the exact cancellation terms for your project will be set out in your written client agreement. This page describes the general approach that agreement is intended to follow.</p>
 
-    <h2>The introductory call</h2>
+    <h2 id="the-introductory-call">The introductory call</h2>
     <p>The introductory call is a free, no obligation conversation. You can reschedule or cancel it at any time before it happens using the link in your confirmation email, or by contacting us at [CONTACT EMAIL].</p>
 
-    <h2>Deposits</h2>
+    <h2 id="deposits">Deposits</h2>
     <p>Paid projects typically begin with a deposit that reserves your project slot and covers the initial discovery and planning work. [Confirm: is any portion of the deposit refundable if the client cancels before work begins, and if so how much/within what window?]</p>
 
-    <h2>Cancelling a project already underway</h2>
+    <h2 id="cancelling-a-project-already-underway">Cancelling a project already underway</h2>
     <p>Work is organised into milestones, agreed in your project scope. If you cancel after work has started:</p>
     <ul>
       <li>You will be charged for any milestone that has already been completed or delivered.</li>
@@ -24,19 +24,19 @@ import BaseLayout from "../layouts/BaseLayout.astro"; import PageHero from "../c
       <li>Any remaining, uncommitted balance you have paid in advance will be refunded within [NUMBER] business days.</li>
     </ul>
 
-    <h2>Cancelling by Author Vista</h2>
+    <h2 id="cancelling-by-author-vista">Cancelling by Author Vista</h2>
     <p>If Author Vista needs to cancel or is unable to continue a project, we will tell you as early as possible and refund any amount paid for work not yet delivered.</p>
 
-    <h2>Rescheduling</h2>
+    <h2 id="rescheduling">Rescheduling</h2>
     <p>Milestones and review calls can be rescheduled with reasonable notice. [Confirm: how much notice, and whether repeated rescheduling by the client affects timeline or cost.]</p>
 
-    <h2>Your statutory rights</h2>
+    <h2 id="your-statutory-rights">Your statutory rights</h2>
     <p>If you are a consumer entering this agreement at a distance (for example, online) in a jurisdiction that gives you a statutory cooling off or right to cancel period, this policy does not reduce those rights. [Confirm applicable statutory rights — for example UK/EU distance selling and consumer contract regulations — with a lawyer, and reflect any required cooling-off period explicitly here.]</p>
 
-    <h2>How to cancel or reschedule</h2>
+    <h2 id="how-to-cancel-or-reschedule">How to cancel or reschedule</h2>
     <p>To cancel or reschedule a call or a project, contact us at [CONTACT EMAIL] with your name and project reference. We will confirm receipt and next steps in writing.</p>
 
-    <h2>Changes to this policy</h2>
+    <h2 id="changes-to-this-policy">Changes to this policy</h2>
     <p>We may update this policy from time to time; the version in force at the time you sign a client agreement is the one that applies to that project.</p>
-  </div></section>
+  </div><LegalToc /></div></section>
 </BaseLayout>

@@ -1,18 +1,18 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro"; import PageHero from "../components/PageHero.astro";
+import BaseLayout from "../layouts/BaseLayout.astro"; import PageHero from "../components/PageHero.astro"; import LegalToc from "../components/LegalToc.astro";
 ---
 <BaseLayout title="Privacy Policy" description="How Author Vista collects, uses and protects information submitted through this website." noindex={true}>
   <PageHero eyebrow="Draft, pending legal review" title="Privacy policy" intro="This is a working draft prepared to explain, in plain terms, how information submitted on this website is handled. It has not yet been reviewed by a lawyer and should not be published or relied on until it has." />
-  <section class="section"><div class="shell narrow prose">
+  <section class="section"><div class="shell legal-layout"><div class="prose legal-prose">
     <p class="notice">Draft status: replace every bracketed placeholder below with confirmed business and legal details, then have this page reviewed by a qualified lawyer in your operating jurisdiction before removing the noindex tag and publishing it.</p>
 
     <p><strong>Last updated:</strong> [DATE]</p>
     <p>This policy explains what information Author Vista ("we", "us") collects through authorvista.com (the "site"), why we collect it, and the choices you have about it.</p>
 
-    <h2>Who we are</h2>
+    <h2 id="who-we-are">Who we are</h2>
     <p>Author Vista is a publishing services and assisted self publishing partner, operated by [LEGAL ENTITY NAME], registered at [REGISTERED BUSINESS ADDRESS]. For any question about this policy or your information, contact [PRIVACY CONTACT EMAIL].</p>
 
-    <h2>Information we collect</h2>
+    <h2 id="information-we-collect">Information we collect</h2>
     <p>We collect information you choose to give us directly, and a limited amount of information collected automatically when you visit the site.</p>
     <ul>
       <li><strong>Enquiry and quote forms.</strong> When you use the Schedule a Call, Contact or Request a Quote forms, we collect your name, email address, current manuscript stage, book genre, the kind of support you are considering, and any message you write. You are asked not to include confidential manuscript text or files at this stage.</li>
@@ -20,7 +20,7 @@ import BaseLayout from "../layouts/BaseLayout.astro"; import PageHero from "../c
       <li><strong>Website usage.</strong> [We use / We do not currently use] analytics or cookies to understand how the site is used. If analytics are enabled, this may include your approximate location, device and browser type, and the pages you visit. See "Cookies" below.</li>
     </ul>
 
-    <h2>How we use this information</h2>
+    <h2 id="how-we-use-this-information">How we use this information</h2>
     <ul>
       <li>To respond to your enquiry and discuss whether Author Vista is a suitable fit for your project.</li>
       <li>To prepare a tailored scope or quotation if you ask for one.</li>
@@ -29,28 +29,28 @@ import BaseLayout from "../layouts/BaseLayout.astro"; import PageHero from "../c
     </ul>
     <p>We do not sell your personal information, and we do not use it to make automated decisions that produce legal or similarly significant effects.</p>
 
-    <h2>Who we share it with</h2>
+    <h2 id="who-we-share-it-with">Who we share it with</h2>
     <p>We do not share your information with third parties for their own marketing purposes. We may share limited information with service providers who help us run the site or our business on our behalf (for example, form handling, email delivery, hosting or accounting tools), under terms that require them to protect it. Current providers: [LIST FORM/EMAIL/HOSTING/ANALYTICS PROVIDERS]. We may also disclose information where required by law, or to protect the rights, safety or property of Author Vista or others.</p>
 
-    <h2>How long we keep it</h2>
+    <h2 id="how-long-we-keep-it">How long we keep it</h2>
     <p>We keep enquiry information for as long as needed to respond to you and, if you become a client, for the duration of the engagement plus [RETENTION PERIOD, e.g. 7 years] to meet contractual and legal record keeping obligations. If your enquiry does not lead to a project, we delete or anonymise it after [RETENTION PERIOD FOR NON-CLIENT ENQUIRIES, e.g. 24 months].</p>
 
-    <h2>Cookies</h2>
+    <h2 id="cookies">Cookies</h2>
     <p>[Describe here: whether the site sets any cookies or similar technologies, what each one does, and how a visitor can decline non-essential cookies. If no cookies are currently set, state that plainly instead of leaving this section blank.]</p>
 
-    <h2>Your rights</h2>
+    <h2 id="your-rights">Your rights</h2>
     <p>Depending on where you live, you may have the right to ask us to confirm what information we hold about you, to correct it, to delete it, to restrict or object to certain processing, or to receive a copy of it in a portable format. To exercise any of these rights, contact [PRIVACY CONTACT EMAIL]. If you are not satisfied with our response, you may also have the right to complain to your local data protection authority (for example, the ICO in the United Kingdom, or the equivalent body in your country).</p>
 
-    <h2>International transfers</h2>
+    <h2 id="international-transfers">International transfers</h2>
     <p>Author Vista intends to support authors across the United States, United Kingdom, Australia, Canada and the European Union. Where information is transferred outside the country it was collected in, we take steps intended to keep it protected consistently with this policy. [Add detail on specific safeguards once hosting/providers and their locations are confirmed.]</p>
 
-    <h2>Children's privacy</h2>
+    <h2 id="childrens-privacy">Children's privacy</h2>
     <p>This site is intended for adult authors and publishing professionals. We do not knowingly collect information from children.</p>
 
-    <h2>Changes to this policy</h2>
+    <h2 id="changes-to-this-policy">Changes to this policy</h2>
     <p>We may update this policy as the business, our providers, or the law change. The "Last updated" date above will reflect the most recent revision. Material changes will be reflected on this page before they take effect.</p>
 
-    <h2>Contact</h2>
+    <h2 id="contact">Contact</h2>
     <p>Questions about this policy or your information can be sent to [PRIVACY CONTACT EMAIL] or [REGISTERED BUSINESS ADDRESS].</p>
-  </div></section>
+  </div><LegalToc /></div></section>
 </BaseLayout>

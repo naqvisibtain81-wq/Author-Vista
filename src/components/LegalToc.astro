@@ -1,0 +1,30 @@
+---
+---
+<aside class="legal-toc" data-legal-toc aria-label="On this page">
+  <p class="legal-toc-label">On this page</p>
+  <ol data-legal-toc-list></ol>
+</aside>
+<script>
+  document.querySelectorAll<HTMLElement>("[data-legal-toc]:not([data-toc-ready])").forEach((toc) => {
+    toc.dataset.tocReady = "";
+    const list = toc.querySelector<HTMLOListElement>("[data-legal-toc-list]");
+    const prose = document.querySelector<HTMLElement>(".legal-prose");
+    const headings = prose ? [...prose.querySelectorAll<HTMLHeadingElement>("h2[id]")] : [];
+    if (!list || headings.length === 0) { toc.remove(); return; }
+    headings.forEach((heading) => {
+      const item = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = `#${heading.id}`;
+      link.textContent = heading.textContent;
+      item.appendChild(link);
+      list.appendChild(item);
+    });
+    const links = [...list.querySelectorAll<HTMLAnchorElement>("a")];
+    const setActive = (id: string) => links.forEach((link) => link.toggleAttribute("aria-current", link.getAttribute("href") === `#${id}`));
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.find((entry) => entry.isIntersecting);
+      if (visible) setActive(visible.target.id);
+    }, { rootMargin: "-15% 0px -70% 0px", threshold: 0 });
+    headings.forEach((heading) => observer.observe(heading));
+  });
+</script>
