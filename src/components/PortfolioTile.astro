@@ -2,6 +2,7 @@
 import type { PortfolioProject, PortfolioFormat } from "../data/portfolio";
 interface Props { project: PortfolioProject; format?: PortfolioFormat; index?: number; duplicate?: boolean; }
 const { project, format = project.format, index = 0, duplicate = false } = Astro.props;
+const badgeLabel = project.status === "sample" ? "Sample design \u2014 not a real client project" : project.status === "development" ? "Development placeholder" : undefined;
 ---
 <a
   class:list={["portfolio-tile", `portfolio-tile-${format}`]}
@@ -15,7 +16,7 @@ const { project, format = project.format, index = 0, duplicate = false } = Astro
 >
   <div class="portfolio-tile-visual">
     {project.image ? <img src={project.image} alt={project.imageAlt ?? ""} width="900" height="1200" loading="lazy" /> : <div class="portfolio-placeholder-art" aria-hidden="true"><span></span><i></i><b>{String(index + 1).padStart(2,"0")}</b></div>}
-    <span class="portfolio-development-label">Development placeholder</span>
+    {badgeLabel && <span class="portfolio-development-label">{badgeLabel}</span>}
   </div>
   <div class="portfolio-tile-copy">
     <p>{project.category}</p>

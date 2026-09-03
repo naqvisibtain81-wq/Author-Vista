@@ -1,0 +1,25 @@
+---
+// Standalone "Markets we support" strip shown on every page, directly above
+// the footer. Slow, continuously auto-scrolling (pauses on hover/focus,
+// respects prefers-reduced-motion), independent of the footer component.
+import RegionFlag from "./RegionFlag.astro";
+const regions = [
+  { code: "us" as const, label: "United States" },
+  { code: "gb" as const, label: "United Kingdom" },
+  { code: "au" as const, label: "Australia" },
+  { code: "ca" as const, label: "Canada" },
+  { code: "eu" as const, label: "European Union" },
+];
+---
+<section class="markets-preface ink-scene" aria-labelledby="markets-preface-title">
+  <div class="shell region-heading">
+    <p class="eyebrow light" id="markets-preface-title">Markets we support</p>
+    <p>Supporting authors internationally without implying physical offices in these regions.</p>
+  </div>
+  <div class="region-marquee" aria-label="Markets supported by Author Vista">
+    <div class="region-track">
+      <div class="region-set">{regions.map((region) => <RegionFlag code={region.code} label={region.label} />)}</div>
+      <div class="region-set" aria-hidden="true">{regions.map((region) => <RegionFlag code={region.code} label={region.label} />)}</div>
+    </div>
+  </div>
+</section>

@@ -1,13 +1,5 @@
 ---
 import BrandMark from "./BrandMark.astro";
-import RegionFlag from "./RegionFlag.astro";
-const regions = [
-  { code: "us" as const, label: "United States" },
-  { code: "gb" as const, label: "United Kingdom" },
-  { code: "au" as const, label: "Australia" },
-  { code: "ca" as const, label: "Canada" },
-  { code: "eu" as const, label: "European Union" },
-];
 const importantServices = [
   ["Book Ghostwriting", "book-ghostwriting"],
   ["Book Editing", "book-editing"],
@@ -72,10 +64,5 @@ const demoContact = {
     </nav>
   </div>
 
-  <section class="region-ribbon" aria-labelledby="regions-title">
-    <div class="shell region-heading"><p class="eyebrow light" id="regions-title">Markets we support</p><p>Supporting authors internationally without implying physical offices in these regions.</p></div>
-    <div class="region-marquee" aria-label="Markets supported by Author Vista"><div class="region-track"><div class="region-set">{regions.map((region) => <RegionFlag code={region.code} label={region.label} />)}</div></div></div>
-  </section>
-
-  <div class="shell footer-closing"><p>The horizon becomes clearer when every stage serves the same book.</p><div><span>&copy; {new Date().getFullYear()} Author Vista. Preview website.</span><span>Business identity and contact details pending client confirmation.</span></div></div>
+  <div class="shell footer-base"><p>&copy; {new Date().getFullYear()} Author Vista. Preview website.</p><p>Business identity and contact details pending client confirmation.</p></div>
 </footer>

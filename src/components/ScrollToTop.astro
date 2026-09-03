@@ -1,0 +1,26 @@
+---
+// Site-wide "back to top" control. Hidden until the visitor has scrolled
+// down; smooth-scrolls to the top of the page on click. Sits opposite the
+// chat support icon so the two never overlap.
+---
+<button type="button" class="scroll-top" data-scroll-top aria-label="Back to top" hidden>
+  <svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<script>
+  const button = document.querySelector<HTMLButtonElement>("[data-scroll-top]");
+  if (button) {
+    const toggle = () => { button.hidden = window.scrollY < 560; };
+    toggle();
+    window.addEventListener("scroll", toggle, { passive: true });
+    button.addEventListener("click", () => {
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+    });
+  }
+</script>
+<style>
+.scroll-top{position:fixed;z-index:89;left:1.25rem;bottom:1.25rem;display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;border:1px solid var(--line-light);background:rgba(16,24,32,.92);color:var(--paper);cursor:pointer;box-shadow:0 12px 30px rgba(16,24,32,.24);transition:transform .2s var(--ease),box-shadow .2s}
+.scroll-top:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(16,24,32,.3)}
+.scroll-top[hidden]{display:none}
+@media(max-width:600px){.scroll-top{left:1rem;bottom:1rem;width:44px;height:44px}}
+</style>

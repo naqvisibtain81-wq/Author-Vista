@@ -6,6 +6,8 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import ChatSupportButton from "../components/ChatSupportButton.astro";
+import MarketsScroller from "../components/MarketsScroller.astro";
+import ScrollToTop from "../components/ScrollToTop.astro";
 
 interface Props {
   title: string;
@@ -55,8 +57,10 @@ const graph = schema ? [organization, ...(Array.isArray(schema) ? schema : [sche
     <div class="reading-progress" aria-hidden="true"><span></span></div>
     <Header />
     <main id="main"><Breadcrumbs /><slot /></main>
+    <MarketsScroller />
     <Footer />
     <ChatSupportButton />
+    <ScrollToTop />
     <script>
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
       const previewParams = new URLSearchParams(window.location.search);

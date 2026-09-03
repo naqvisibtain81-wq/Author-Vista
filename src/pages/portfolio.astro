@@ -5,8 +5,15 @@ import PortfolioTile from "../components/PortfolioTile.astro";
 import { portfolioFilters, portfolioProjects } from "../data/portfolio";
 
 const isProduction = import.meta.env.PUBLIC_SITE_STATUS === "production";
-const projects = portfolioProjects.filter((project) => project.status === "approved" || !isProduction);
+// In production, real client work ("approved") and clearly-labelled concept
+// samples ("sample") are shown; layout-only "development" placeholders stay
+// hidden. Outside production, everything is visible for review.
+const projects = portfolioProjects.filter((project) => project.status !== "development" || !isProduction);
 const approvedCount = projects.filter((project) => project.status === "approved").length;
+const categoriesWithWork = new Set(projects.map((project) => project.category));
+const comingSoonCategories = isProduction
+  ? portfolioFilters.filter((filter) => filter !== "All Portfolio" && !categoriesWithWork.has(filter as (typeof projects)[number]["category"]))
+  : [];
 const collectionSchema = {
   "@type": "CollectionPage",
   name: "Author Vista Portfolio",
@@ -40,8 +47,14 @@ const collectionSchema = {
       </div>
       <p class="sr-only" aria-live="polite" data-portfolio-status>{projects.length} development portfolio positions shown.</p>
     </div>
-    {projects.length > 0 ? <div class="shell portfolio-lanes" data-portfolio-lanes>
+    {(projects.length > 0 || comingSoonCategories.length > 0) ? <div class="shell portfolio-lanes" data-portfolio-lanes>
       {projects.map((project,index) => <PortfolioTile project={project} format={project.format} index={index} />)}
+      {comingSoonCategories.map((category,index) => (
+        <div class="portfolio-tile portfolio-tile-square portfolio-tile-coming-soon" data-category={category} data-project-index={projects.length + index}>
+          <div class="portfolio-tile-visual"><div class="portfolio-placeholder-art" aria-hidden="true"><span></span><i></i><b>{category.slice(0,2).toUpperCase()}</b></div><span class="portfolio-development-label">Coming soon</span></div>
+          <div class="portfolio-tile-copy"><p>{category}</p><h3>Coming soon</h3><dl><div><dt>Status</dt><dd>Approved project pending</dd></div></dl></div>
+        </div>
+      ))}
     </div> : <div class="shell portfolio-empty"><p class="eyebrow light">Awaiting approved work</p><h3>The exhibition will open when genuine project assets are ready.</h3><p>No fictional covers, author names or outcomes are being used to fill the space.</p></div>}
   </section>
 
