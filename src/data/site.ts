@@ -34,7 +34,7 @@ export const stages = [
 export const serviceGroups = [
   {
     slug: "book-writing-and-manuscript-development",
-    title: "Writing and manuscript development",
+    title: "Writing and Manuscript Development",
     shortTitle: "Develop the manuscript",
     intro: "Listening, planning and writing support for authors moving from an early premise, research or partial draft toward a coherent manuscript.",
     emotionalTitle: "The voice is yours. The blank page does not have to be faced alone.",
@@ -51,7 +51,7 @@ export const serviceGroups = [
   },
   {
     slug: "book-editing",
-    title: "Book editing and evaluation",
+    title: "Book Editing and Evaluation",
     shortTitle: "Refine the writing",
     intro: "Editorial work matched to the manuscript’s condition, from structural evaluation and line level refinement to final proofreading.",
     emotionalTitle: "Distance helps you see what familiarity can hide.",
@@ -68,7 +68,7 @@ export const serviceGroups = [
   },
   {
     slug: "book-design-and-production",
-    title: "Book design and production",
+    title: "Book Design and Production",
     shortTitle: "Shape the finished book",
     intro: "Cover, interior, illustration and formatting services that give the manuscript a coherent visual form and prepare it for production.",
     emotionalTitle: "Design gives the manuscript a physical voice.",
@@ -85,7 +85,7 @@ export const serviceGroups = [
   },
   {
     slug: "self-publishing-assistance",
-    title: "Self publishing assistance",
+    title: "Self Publishing Assistance",
     shortTitle: "Prepare for publication",
     intro: "Practical guidance for preparing files, metadata and author controlled publishing accounts on suitable self publishing platforms.",
     emotionalTitle: "The files move forward. The publishing identity stays with you.",
@@ -119,7 +119,7 @@ export const serviceGroups = [
   },
   {
     slug: "author-platform-and-book-marketing",
-    title: "Author platform and book marketing",
+    title: "Author Platform and Book Marketing",
     shortTitle: "Help readers discover it",
     intro: "Launch, listing and author platform support planned around the book, its readers and the realistic scope available.",
     emotionalTitle: "Discovery begins by presenting the book with purpose.",

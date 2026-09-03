@@ -7,7 +7,6 @@ import { portfolioFilters, portfolioProjects } from "../data/portfolio";
 const isProduction = import.meta.env.PUBLIC_SITE_STATUS === "production";
 const projects = portfolioProjects.filter((project) => project.status === "approved" || !isProduction);
 const approvedCount = projects.filter((project) => project.status === "approved").length;
-const laneFormats = ["portrait", "landscape", "square"] as const;
 const collectionSchema = {
   "@type": "CollectionPage",
   name: "Author Vista Portfolio",
@@ -41,14 +40,8 @@ const collectionSchema = {
       </div>
       <p class="sr-only" aria-live="polite" data-portfolio-status>{projects.length} development portfolio positions shown.</p>
     </div>
-    {projects.length > 0 ? <div class="portfolio-lanes" data-portfolio-lanes>
-      {laneFormats.map((format,laneIndex) => <div class:list={["portfolio-lane", `portfolio-lane-${laneIndex+1}`]} data-portfolio-lane>
-        <div class="portfolio-lane-track">
-          {[0,1].map((sequenceIndex) => <div class="portfolio-sequence" aria-hidden={sequenceIndex === 1 ? "true" : undefined}>
-            {projects.map((project,index) => <PortfolioTile project={project} format={format} index={index} duplicate={sequenceIndex === 1} />)}
-          </div>)}
-        </div>
-      </div>)}
+    {projects.length > 0 ? <div class="shell portfolio-lanes" data-portfolio-lanes>
+      {projects.map((project,index) => <PortfolioTile project={project} format={project.format} index={index} />)}
     </div> : <div class="shell portfolio-empty"><p class="eyebrow light">Awaiting approved work</p><h3>The exhibition will open when genuine project assets are ready.</h3><p>No fictional covers, author names or outcomes are being used to fill the space.</p></div>}
   </section>
 

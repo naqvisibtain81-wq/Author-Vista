@@ -74,8 +74,7 @@ const demoContact = {
 
   <section class="region-ribbon" aria-labelledby="regions-title">
     <div class="shell region-heading"><p class="eyebrow light" id="regions-title">Markets we support</p><p>Supporting authors internationally without implying physical offices in these regions.</p></div>
-    <ul class="sr-only">{regions.map((region) => <li>{region.label}</li>)}</ul>
-    <div class="region-marquee" tabindex="0" aria-label="Markets supported by Author Vista"><div class="region-track">{[0,1,2,3,4,5].map(() => <div class="region-set" aria-hidden="true">{regions.map((region) => <RegionFlag code={region.code} label={region.label} />)}</div>)}</div></div>
+    <div class="region-marquee" aria-label="Markets supported by Author Vista"><div class="region-track"><div class="region-set">{regions.map((region) => <RegionFlag code={region.code} label={region.label} />)}</div></div></div>
   </section>
 
   <div class="shell footer-closing"><p>The horizon becomes clearer when every stage serves the same book.</p><div><span>&copy; {new Date().getFullYear()} Author Vista. Preview website.</span><span>Business identity and contact details pending client confirmation.</span></div></div>
