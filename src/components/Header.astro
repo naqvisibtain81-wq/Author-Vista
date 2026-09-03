@@ -61,14 +61,25 @@ const currentPath = Astro.url.pathname;
     primaryNavigation?.toggleAttribute("data-open", !open);
     document.body.classList.toggle("menu-open", !open);
   });
-  servicesToggle?.addEventListener("click", () => {
-    const willOpen = !servicesPinned || servicesToggle.getAttribute("aria-expanded") !== "true";
+  const servicesLabel = servicesItem?.querySelector<HTMLAnchorElement>(".services-nav-control > a");
+  const toggleServicesPanel = () => {
+    const willOpen = !servicesPinned || servicesToggle?.getAttribute("aria-expanded") !== "true";
     if (!desktop() && willOpen && menuButton?.getAttribute("aria-expanded") !== "true") {
       menuButton?.setAttribute("aria-expanded", "true");
       primaryNavigation?.setAttribute("data-open", "");
       document.body.classList.add("menu-open");
     }
     if (willOpen) { servicesPinned = true; openServices(); } else closeServices();
+  };
+  servicesToggle?.addEventListener("click", toggleServicesPanel);
+  // On mobile there's no hover preview, so tapping the "Services" label itself
+  // should expand the panel in place (like the + toggle) rather than navigating
+  // straight to /services/ — that read as the menu "not expanding" and instead
+  // jumping to a different screen. Desktop keeps the native link behaviour.
+  servicesLabel?.addEventListener("click", (event) => {
+    if (desktop()) return;
+    event.preventDefault();
+    toggleServicesPanel();
   });
   servicesItem?.addEventListener("mouseenter", () => desktop() && openServices());
   servicesItem?.addEventListener("mouseleave", () => desktop() && !servicesPinned && closeServices(true));
@@ -79,7 +90,7 @@ const currentPath = Astro.url.pathname;
   servicesPanel?.addEventListener("focusout", (event) => { if (desktop() && !servicesPanel.contains(event.relatedTarget as Node) && !servicesItem?.contains(event.relatedTarget as Node)) closeServices(true); });
   document.addEventListener("pointerdown", (event) => { if (desktop() && servicesPanel?.hasAttribute("data-open") && !servicesPanel.contains(event.target as Node) && !servicesItem?.contains(event.target as Node)) closeServices(); });
   document.querySelectorAll<HTMLButtonElement>(".mega-group-toggle").forEach((button) => button.addEventListener("click", () => { const open=button.getAttribute("aria-expanded") === "true"; button.setAttribute("aria-expanded",String(!open)); button.nextElementSibling?.toggleAttribute("data-open",!open); }));
-  primaryNavigation?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+  primaryNavigation?.querySelectorAll("a").forEach((link) => { if (link !== servicesLabel) link.addEventListener("click", closeMenu); });
   servicesPanel?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
   document.addEventListener("keydown", (event) => { if (event.key !== "Escape") return; if (servicesPanel?.hasAttribute("data-open")) { if (desktop()) { closeServices(); servicesToggle?.focus(); } else { closeMenu(); menuButton?.focus(); } } else if (menuButton?.getAttribute("aria-expanded") === "true") { closeMenu(); menuButton.focus(); } });
   const header = document.querySelector<HTMLElement>("[data-header]");
