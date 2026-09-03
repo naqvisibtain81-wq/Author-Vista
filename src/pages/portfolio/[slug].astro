@@ -5,15 +5,18 @@ import { portfolioProjects } from "../../data/portfolio";
 
 export function getStaticPaths() {
   const production = import.meta.env.PUBLIC_SITE_STATUS === "production";
-  return portfolioProjects.filter((project) => project.status === "approved" || !production).map((project) => ({ params: { slug: project.slug }, props: { project } }));
+  // "approved" (real client work) and "sample" (labelled concept work) both
+  // get pages in production; "development" placeholders stay preview-only.
+  return portfolioProjects.filter((project) => project.status !== "development" || !production).map((project) => ({ params: { slug: project.slug }, props: { project } }));
 }
 const { project } = Astro.props;
 const isDevelopment = project.status === "development";
+const isSample = project.status === "sample";
 ---
-<BaseLayout title={`${project.category} Portfolio Project`} description={`A ${isDevelopment ? "development framework for a future" : "selected"} Author Vista ${project.category.toLowerCase()} case study.`} noindex={isDevelopment}>
+<BaseLayout title={`${project.category} Portfolio Project`} description={`A ${isDevelopment ? "development framework for a future" : isSample ? "sample concept" : "selected"} Author Vista ${project.category.toLowerCase()} case study.`} noindex={isDevelopment}>
   <article class="portfolio-case-study">
     <header class="portfolio-case-hero ink-scene" data-project-hero>
-      <div class="shell portfolio-case-hero-grid"><div><p class="eyebrow light">{isDevelopment ? "Development case study framework" : project.category}</p><h1>{project.title}</h1><p>{isDevelopment ? "No client, book or result is being claimed. This private placeholder demonstrates how approved project evidence will be presented." : project.contribution}</p><a class="text-link light" href="/portfolio/">Back to Portfolio <span aria-hidden="true">↙</span></a></div><div class:list={["portfolio-case-visual", `portfolio-tile-${project.format}`]}><span>Approved project artwork required</span><i></i><b>{project.category}</b></div></div>
+      <div class="shell portfolio-case-hero-grid"><div><p class="eyebrow light">{isDevelopment ? "Development case study framework" : project.category}</p><h1>{project.title}</h1><p>{isDevelopment ? "No client, book or result is being claimed. This private placeholder demonstrates how approved project evidence will be presented." : project.contribution}</p>{isSample && <p class="portfolio-case-sample-note">Concept sample, not a completed client project.</p>}<a class="text-link light" href="/portfolio/">Back to Portfolio <span aria-hidden="true">↙</span></a></div><div class:list={["portfolio-case-visual", `portfolio-tile-${project.format}`]}>{project.image ? <img src={project.image} alt={project.imageAlt ?? ""} style={project.imagePosition ? `object-position:${project.imagePosition}` : undefined} /> : <><span>Approved project artwork required</span><i></i><b>{project.category}</b></>}</div></div>
     </header>
     <section class="section"><div class="shell portfolio-case-details">
       {[['Author',project.author],['Genre',project.genre],['Services',project.services.join(', ')],['Starting point',project.startingPoint],['Challenge',project.challenge],['Author Vista contribution',project.contribution],['Writing or editorial process','Approved process explanation required.'],['Design process','Approved design development and assets required.'],['Publishing assistance','Confirmed platforms and account responsibilities required.'],['Final assets',project.outcome],['Verified outcomes','Documented result and publication permission required.'],['Approved testimonial','Exact client wording and permission required.']].map(([label,value],index)=><section><span>{String(index+1).padStart(2,'0')}</span><div><p class="eyebrow">{label}</p><h2>{value}</h2></div></section>)}

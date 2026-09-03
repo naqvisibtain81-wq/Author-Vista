@@ -21,6 +21,7 @@ export interface PortfolioProject {
   format: PortfolioFormat;
   image?: string;
   imageAlt?: string;
+  imagePosition?: string;
   // "development": layout-only placeholder, hidden in production.
   // "sample": an illustrative concept design, shown in production but
   //   clearly labelled as a sample rather than verified client work.
@@ -70,6 +71,7 @@ const coverDesignSamples: PortfolioProject[] = [
     format: "landscape",
     image: "/images/portfolio/sample-look-into-me.png",
     imageAlt: "Sample full wraparound book cover design for a contemporary noir thriller titled Look Into Me",
+    imagePosition: "78% center",
     status: "sample",
     startingPoint: "Illustrative sample only - not a real client project.",
     challenge: "Show a full front, spine and back jacket treatment for a character-driven psychological thriller.",
@@ -86,6 +88,7 @@ const coverDesignSamples: PortfolioProject[] = [
     format: "landscape",
     image: "/images/portfolio/sample-residual-light.png",
     imageAlt: "Sample full wraparound book cover design for a psychological suspense novel titled Residual Light",
+    imagePosition: "82% center",
     status: "sample",
     startingPoint: "Illustrative sample only - not a real client project.",
     challenge: "Blend clinical, evidentiary motifs with a portrait-led cover for a memory-driven suspense novel.",

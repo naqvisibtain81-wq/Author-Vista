@@ -20,7 +20,7 @@ const currentPath = Astro.url.pathname;
     <div class="shell services-mega-inner">
       <div class="services-mega-intro"><p class="eyebrow light">Publishing services</p><h2>One connected path, shaped around the book.</h2><p>Explore a specific service or begin with the stage your manuscript has reached.</p><a class="text-link light" href="/services/">View all services <span aria-hidden="true">&rarr;</span></a></div>
       <div class="services-mega-groups">
-        {serviceMenuGroups.map((group, index) => <section class="mega-group"><button type="button" class="mega-group-toggle" aria-expanded={index === 0 ? "true" : "false"}><span>{group.group}</span><i aria-hidden="true">+</i></button><div class="mega-group-links" data-open={index === 0 ? "" : undefined}>{group.items.map((service) => <a href={`/services/${service.slug}/`}><strong>{service.title}</strong><span>{service.eyebrow}</span></a>)}</div></section>)}
+        {serviceMenuGroups.map((group, index) => <section class="mega-group"><button type="button" class="mega-group-toggle" aria-expanded={index === 0 ? "true" : "false"}><span>{group.group}</span><i aria-hidden="true">+</i></button><div class="mega-group-links" data-open={index === 0 ? "" : undefined}><div class="mega-group-links-inner">{group.items.map((service) => <a href={`/services/${service.slug}/`}><strong>{service.title}</strong><span>{service.eyebrow}</span></a>)}</div></div></section>)}
       </div>
     </div>
   </section>
