@@ -14,9 +14,10 @@ interface Props {
   description: string;
   image?: string;
   noindex?: boolean;
+  minimal?: boolean;
   schema?: Record<string, unknown> | Record<string, unknown>[];
 }
-const { title, description, image = "/social-card.svg", noindex = false, schema } = Astro.props;
+const { title, description, image = "/social-card.svg", noindex = false, minimal = false, schema } = Astro.props;
 const isProduction = import.meta.env.PUBLIC_SITE_STATUS === "production";
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const fullTitle = title.includes("Author Vista") ? title : `${title} | Author Vista`;
@@ -61,15 +62,15 @@ const graph = schema ? [organization, ...(Array.isArray(schema) ? schema : [sche
     <link rel="icon" href="/brand/author-vista-approved-mark.png" type="image/png" />
     <script is:inline type="application/ld+json" set:html={JSON.stringify({ "@context": "https://schema.org", "@graph": graph.map(({["@context"]: _, ...item}) => item) })} />
   </head>
-  <body class:list={{ "home-page": Astro.url.pathname === "/" }}>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <div class="reading-progress" aria-hidden="true"><span></span></div>
-    <Header />
-    <main id="main"><Breadcrumbs /><slot /></main>
-    <MarketsScroller />
-    <Footer />
-    <ChatSupportButton />
-    <ScrollToTop />
+  <body class:list={{ "home-page": Astro.url.pathname === "/", "minimal-page": minimal }}>
+    {!minimal && <a class="skip-link" href="#main">Skip to content</a>}
+    {!minimal && <div class="reading-progress" aria-hidden="true"><span></span></div>}
+    {!minimal && <Header />}
+    <main id="main">{!minimal && <Breadcrumbs />}<slot /></main>
+    {!minimal && <MarketsScroller />}
+    {!minimal && <Footer />}
+    {!minimal && <ChatSupportButton />}
+    {!minimal && <ScrollToTop />}
     <script>
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
       const previewParams = new URLSearchParams(window.location.search);
