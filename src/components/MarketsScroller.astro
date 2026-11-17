@@ -10,6 +10,8 @@ const regions = [
   { code: "ca" as const, label: "Canada" },
   { code: "eu" as const, label: "European Union" },
 ];
+// Extra copies per set (3 total) so a set is ~3,400px wide, wider than any common screen.
+const repeats = [1, 2];
 ---
 <section class="markets-preface ink-scene" aria-labelledby="markets-preface-title">
   <div class="shell region-heading">
@@ -18,8 +20,15 @@ const regions = [
   </div>
   <div class="region-marquee" aria-label="Markets supported by Author Vista">
     <div class="region-track">
-      <div class="region-set">{regions.map((region) => <RegionFlag code={region.code} label={region.label} />)}</div>
-      <div class="region-set" aria-hidden="true">{regions.map((region) => <RegionFlag code={region.code} label={region.label} />)}</div>
+      {/* Each set repeats the regions so one set is wider than any viewport;
+          the track then loops seamlessly by shifting exactly one set (-50%). */}
+      <div class="region-set">
+        {regions.map((region) => <RegionFlag code={region.code} label={region.label} />)}
+        {repeats.map(() => <span class="region-repeat" aria-hidden="true">{regions.map((region) => <RegionFlag code={region.code} label={region.label} />)}</span>)}
+      </div>
+      <div class="region-set" aria-hidden="true">
+        {[0, ...repeats].map(() => regions.map((region) => <RegionFlag code={region.code} label={region.label} />))}
+      </div>
     </div>
   </div>
 </section>

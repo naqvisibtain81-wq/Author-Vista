@@ -14,10 +14,9 @@ interface Props {
   description: string;
   image?: string;
   noindex?: boolean;
-  minimal?: boolean;
   schema?: Record<string, unknown> | Record<string, unknown>[];
 }
-const { title, description, image = "/social-card.svg", noindex = false, minimal = false, schema } = Astro.props;
+const { title, description, image = "/social-card.svg", noindex = false, schema } = Astro.props;
 const isProduction = import.meta.env.PUBLIC_SITE_STATUS === "production";
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const fullTitle = title.includes("Author Vista") ? title : `${title} | Author Vista`;
@@ -29,12 +28,12 @@ const organization = {
   description: "An end to end publishing services and assisted self publishing partner.",
   areaServed: ["United States", "United Kingdom", "Australia", "Canada", "European Union"],
   email: "support@authorvista.com",
-  telephone: "+44 7700 900 482",
+  telephone: "+44 7760 514934",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "42 Willowbrook Lane",
-    addressLocality: "Bristol",
-    postalCode: "BS7 4QJ",
+    streetAddress: "70, 41 Millharbour",
+    addressLocality: "London",
+    postalCode: "E14 9NB",
     addressCountry: "United Kingdom",
   },
 };
@@ -62,15 +61,15 @@ const graph = schema ? [organization, ...(Array.isArray(schema) ? schema : [sche
     <link rel="icon" href="/brand/author-vista-approved-mark.png" type="image/png" />
     <script is:inline type="application/ld+json" set:html={JSON.stringify({ "@context": "https://schema.org", "@graph": graph.map(({["@context"]: _, ...item}) => item) })} />
   </head>
-  <body class:list={{ "home-page": Astro.url.pathname === "/", "minimal-page": minimal }}>
-    {!minimal && <a class="skip-link" href="#main">Skip to content</a>}
-    {!minimal && <div class="reading-progress" aria-hidden="true"><span></span></div>}
-    {!minimal && <Header />}
-    <main id="main">{!minimal && <Breadcrumbs />}<slot /></main>
-    {!minimal && <MarketsScroller />}
-    {!minimal && <Footer />}
-    {!minimal && <ChatSupportButton />}
-    {!minimal && <ScrollToTop />}
+  <body class:list={{ "home-page": Astro.url.pathname === "/" }}>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="reading-progress" aria-hidden="true"><span></span></div>
+    <Header />
+    <main id="main"><Breadcrumbs /><slot /></main>
+    <MarketsScroller />
+    <Footer />
+    <ChatSupportButton />
+    <ScrollToTop />
     <script>
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
       const previewParams = new URLSearchParams(window.location.search);
